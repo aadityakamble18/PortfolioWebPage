@@ -2,6 +2,7 @@
 
 A high-performance, telemetry-driven portfolio system designed for systems engineers. This interface is inspired by Formula 1 mission control rooms and aerospace diagnostic dashboards, emphasizing data density, structural clarity, and real-time performance metrics.
 
+[![Live Demo](https://img.shields.io/badge/LIVE_DEMO-VIEW_MISSION_CONTROL-blue?style=for-the-badge&logo=vercel)](https://portfolio-web-page-pi.vercel.app)
 ![System Status: Operational](https://img.shields.io/badge/SYSTEM_STATUS-OPERATIONAL-emerald?style=for-the-badge&logo=statuspage)
 ![Interface Version](https://img.shields.io/badge/INTERFACE-V4.2.0-red?style=for-the-badge)
 ![Tech Stack](https://img.shields.io/badge/ARCHITECTURE-REACT_19-blue?style=for-the-badge&logo=react)
@@ -62,7 +63,7 @@ To ensure zero layout shift and high performance, the system uses custom hash-ba
 ### Local Initialization
 1.  **Clone the Repository:**
     ```bash
-    git clone https://github.com/aadityakamble18/portfolio.git
+    git clone https://github.com/aadityakamble18/PortfolioWebPage.git
     ```
 2.  **Install Dependencies:**
     ```bash
