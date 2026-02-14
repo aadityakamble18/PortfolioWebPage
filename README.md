@@ -1,4 +1,4 @@
-# APEX // Engineering Control Interface
+# Engineering Control Interface
 
 A high-performance, telemetry-driven portfolio system designed for systems engineers. This interface is inspired by Formula 1 mission control rooms and aerospace diagnostic dashboards, emphasizing data density, structural clarity, and real-time performance metrics.
 
@@ -9,7 +9,7 @@ A high-performance, telemetry-driven portfolio system designed for systems engin
 
 ## 🏎️ Interface Overview
 
-The APEX platform is more than a portfolio; it is a simulated Command Center. It utilizes a custom-built telemetry engine to visualize engineering projects, research papers, and professional progression through a lens of technical diagnostics.
+This platform is more than a portfolio; it is a simulated Command Center. It utilizes a custom-built telemetry engine to visualize engineering projects, research papers, and professional progression through a lens of technical diagnostics.
 
 ### Core Modules
 - **Telemetry Dashboard (Hero):** Live data relay featuring a structural uptime clock (Age), Visitor Index tracking, and a Global Population estimation model.
