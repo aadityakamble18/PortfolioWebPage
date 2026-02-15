@@ -48,9 +48,9 @@ const LoadingScreen: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
           </div>
           <span className="mono text-xs text-red-500">{Math.round((step / steps.length) * 100)}%</span>
         </div>
-        
+
         <div className="h-1 bg-white/5 w-full mb-6 rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-red-500 transition-all duration-500 ease-out"
             style={{ width: `${(step / steps.length) * 100}%` }}
           />
@@ -82,23 +82,27 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleRouteChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (hash.startsWith('project/')) {
-        setView({ type: 'project', id: hash.split('/')[1] });
-      } else if (hash.startsWith('research/')) {
-        setView({ type: 'research', id: hash.split('/')[1] });
-      } else if (hash === 'specs') {
+      const path = window.location.pathname.replace('/', '');
+
+      const route = hash || path;
+
+      if (route.startsWith('project/')) {
+        setView({ type: 'project', id: route.split('/')[1] });
+      } else if (route.startsWith('research/')) {
+        setView({ type: 'research', id: route.split('/')[1] });
+      } else if (route === 'specs') {
         setView({ type: 'specs' });
-      } else if (hash === 'status') {
+      } else if (route === 'status') {
         setView({ type: 'status' });
-      } else if (hash === 'projects') {
+      } else if (route === 'projects') {
         setView({ type: 'projects_archive' });
-      } else if (hash === 'research_archive') {
+      } else if (route === 'research_archive') {
         setView({ type: 'research_archive' });
-      } else if (hash === 'about') {
+      } else if (route === 'about') {
         setView({ type: 'about' });
-      } else if (hash === 'career') {
+      } else if (route === 'career') {
         setView({ type: 'home' });
         setTimeout(() => {
           const el = document.getElementById('career');
@@ -107,12 +111,17 @@ const App: React.FC = () => {
       } else {
         setView({ type: 'home' });
       }
-      if (hash !== 'career') window.scrollTo(0, 0);
+
+      if (route !== 'career') window.scrollTo(0, 0);
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    handleHashChange();
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleRouteChange);
+    window.addEventListener('popstate', handleRouteChange);
+    handleRouteChange();
+    return () => {
+      window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('popstate', handleRouteChange);
+    };
   }, []);
 
   const navigate = (newView: typeof view) => {
@@ -137,9 +146,9 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Layout 
-        currentType={view.type} 
-        onNavigateHome={() => navigate({ type: 'home' })} 
+      <Layout
+        currentType={view.type}
+        onNavigateHome={() => navigate({ type: 'home' })}
         onNavigateStatus={() => navigate({ type: 'status' })}
         onTriggerTerminal={openTerminal}
       >
@@ -160,13 +169,13 @@ const App: React.FC = () => {
         {view.type === 'projects_archive' && <ProjectsArchive onBack={() => navigate({ type: 'home' })} onOpenProject={(id) => navigate({ type: 'project', id })} />}
         {view.type === 'research_archive' && <ResearchArchive onBack={() => navigate({ type: 'home' })} onOpenResearch={(id) => navigate({ type: 'research', id })} />}
         {view.type === 'about' && <AboutPage onBack={() => navigate({ type: 'home' })} />}
-        
-        <TerminalModal 
-          isOpen={terminal.isOpen} 
-          onClose={() => setTerminal(t => ({ ...t, isOpen: false }))} 
-          title={terminal.title} 
-          content={terminal.content} 
-          type={terminal.type} 
+
+        <TerminalModal
+          isOpen={terminal.isOpen}
+          onClose={() => setTerminal(t => ({ ...t, isOpen: false }))}
+          title={terminal.title}
+          content={terminal.content}
+          type={terminal.type}
         />
       </Layout>
     </>

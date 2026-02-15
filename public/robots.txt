@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://portfolio-web-page-pi.vercel.app/sitemap.xml

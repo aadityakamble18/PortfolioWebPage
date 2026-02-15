@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://portfolio-web-page-pi.vercel.app/</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://portfolio-web-page-pi.vercel.app/about</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://portfolio-web-page-pi.vercel.app/projects</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://portfolio-web-page-pi.vercel.app/research_archive</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://portfolio-web-page-pi.vercel.app/specs</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://portfolio-web-page-pi.vercel.app/status</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Projects -->
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-SW-13</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-FS-14</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-EV-01</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-AG-02</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-ML-03</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-CFD-04</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-CRY-05</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-ROC-06</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-SEC-07</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-NAV-08</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-OPT-09</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-DSC-10</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-UX-11</loc><priority>0.7</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/project/P-LDR-12</loc><priority>0.7</priority></url>
+
+  <!-- Research -->
+  <url><loc>https://portfolio-web-page-pi.vercel.app/research/R01</loc><priority>0.6</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/research/R02</loc><priority>0.6</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/research/R03</loc><priority>0.6</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/research/R04</loc><priority>0.6</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/research/R05</loc><priority>0.6</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/research/P01</loc><priority>0.6</priority></url>
+  <url><loc>https://portfolio-web-page-pi.vercel.app/research/P02</loc><priority>0.6</priority></url>
+</urlset>
