@@ -8,7 +8,7 @@ Build a polished, responsive homepage inspired by the uploaded editorial layout,
 - Bold opening statement paired with an abstract red portrait composition
 - About section with concise biography and a resume link
 - Projects preview with two large editorial case-study cards
-- Minimal dark footer with the portfolio name
+- Footer with social links, professional website, and portfolio name
 
 ## Visual direction
 - Warm off-white canvas, near-black typography, vivid red accent
