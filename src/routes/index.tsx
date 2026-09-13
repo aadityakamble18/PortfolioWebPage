@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Mail } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import portrait from "../assets/portrait.jpg";
 import projectOne from "../assets/project-1.jpg";
 import projectTwo from "../assets/project-2.jpg";
@@ -29,9 +30,7 @@ export const Route = createFileRoute("/")({
 
 const navLinks = [
   { label: "Work", href: "#projects" },
-  { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
-  { label: "Resume", href: "#about" },
 ];
 
 const socialLinks = [
@@ -59,26 +58,35 @@ function Index() {
 function Header() {
   return (
     <header className="relative z-20 flex items-center justify-between px-6 py-6 md:px-12 lg:px-16">
-      <a href="#" className="font-display text-sm font-bold tracking-tight uppercase">
+      <Link
+        to="/"
+        className="font-display text-sm font-bold tracking-tight uppercase transition-colors hover:text-primary"
+      >
         Aaditya Kamble
-      </a>
+      </Link>
       <nav className="hidden items-center gap-8 md:flex">
         {navLinks.map((link) => (
           <a
             key={link.label}
             href={link.href}
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
           >
             {link.label}
           </a>
         ))}
+        <Link
+          to="/about"
+          className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        >
+          About
+        </Link>
       </nav>
-      <a
-        href="#"
-        className="inline-flex items-center gap-1 rounded-full border border-border px-4 py-2 text-xs font-medium transition-colors hover:bg-secondary md:hidden"
+      <Link
+        to="/about"
+        className="inline-flex items-center gap-1 rounded-full border border-border px-4 py-2 text-xs font-medium transition-colors hover:border-primary hover:text-primary md:hidden"
       >
-        Menu
-      </a>
+        About
+      </Link>
     </header>
   );
 }
@@ -88,8 +96,8 @@ function HeroSection() {
     <section className="relative z-10 px-6 pb-16 pt-8 md:px-12 md:pb-24 md:pt-12 lg:px-16">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
         <div className="relative order-2 lg:order-1">
-          <p className="mb-4 font-body text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Portfolio / 2026
+          <p className="mb-4 font-body text-xs font-semibold uppercase tracking-widest text-primary">
+            Aaditya Kamble
           </p>
           <h1 className="font-display text-5xl font-bold leading-[0.95] tracking-tight text-foreground md:text-6xl lg:text-7xl">
             Craving for
@@ -98,6 +106,19 @@ function HeroSection() {
             <br />
             for Invention
           </h1>
+
+          <p className="mt-6 max-w-lg text-sm leading-relaxed text-muted-foreground md:text-base">
+            I build thoughtful digital experiences where technical craft meets creative
+            curiosity. This portfolio brings together the work, ideas, and experiments that
+            continue to shape my practice.{" "}
+            <Link
+              to="/about"
+              className="inline-flex items-center gap-1 font-semibold text-foreground transition-colors hover:text-primary"
+            >
+              Read more
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </p>
 
           <div className="absolute -left-8 top-1/2 hidden -translate-y-1/2 lg:block">
             <WavyLine />
@@ -136,40 +157,43 @@ function AboutSection() {
               About This Website
             </h2>
             <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-primary">
-              More Information
+              Skip this (Not Important)
             </p>
           </div>
 
           <div className="space-y-6">
             <p className="max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Hi, I&apos;m Aaditya Kamble, and this is my personal portfolio. I&apos;m passionate
-              about building thoughtful digital products that sit at the intersection of design
-              and engineering. Whether I&apos;m prototyping a new interaction, refining a design
-              system, or writing production code, I care most about clarity, craft, and the
-              people on the other side of the screen.
+              Greetings, I am Aaditya Kamble, and welcome to my personal portfolio. Whether you
+              arrived via a direct link or through independent curiosity, I have endeavoured to
+              consolidate a comprehensive overview of my background, technical repertoire, and
+              creative undertakings within this dynamic, interactive space. Should you encounter
+              any functional anomalies as you explore, please do not hesitate to report them
+              through the provided communication channel.
             </p>
             <p className="max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              This site is a living collection of my work, experiments, and the ideas that keep
-              me curious. Right now you&apos;re looking at the homepage, and more case studies,
-              writing, and side projects will be added soon. If something here resonates, feel
-              free to reach out.
+              The platform is systematically arranged into dedicated sections outlining my
+              personal profile, practical projects, professional experience, and extracurricular
+              engagements, alongside avenues for direct correspondence. Here, you will discover
+              biographical highlights refined with computational assistance, complete repositories
+              hosted on GitHub with downloadable technical reports, and an account of my broader
+              pursuits. As further enhancements remain underway, I trust your visit proves
+              engaging, and you may even find a brief interactive diversion should the technical
+              minutiae grow tedious.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
-              <a
-                href="mailto:aaditya@example.com"
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                <Mail className="h-4 w-4" />
-                Get in touch
-              </a>
-              <a
-                href="#"
-                className="inline-flex items-center gap-1 rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
-              >
-                View resume
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
+              <Button asChild>
+                <a href="mailto:aaditya@example.com">
+                  <Mail className="h-4 w-4" />
+                  Get in touch
+                </a>
+              </Button>
+              <Button asChild variant="outline">
+                <Link to="/about">
+                  Read more
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -235,9 +259,9 @@ function ProjectsSection() {
                   <span className="text-xs font-medium text-muted-foreground">{project.year}</span>
                 </div>
                 <p className="mb-6 text-sm text-muted-foreground">{project.description}</p>
-                <a
+                 <a
                   href="#"
-                  className="inline-flex items-center gap-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                   className="inline-flex items-center gap-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                 >
                   Case Study
                   <ArrowUpRight className="h-4 w-4" />
@@ -268,7 +292,7 @@ function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-background/80 transition-colors hover:text-background"
+                className="text-sm font-medium text-background/80 transition-colors hover:text-primary"
               >
                 {link.label}
               </a>
@@ -278,7 +302,7 @@ function Footer() {
             href="https://aadityakamble.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm font-medium text-background/80 transition-colors hover:text-background"
+            className="inline-flex items-center gap-1 text-sm font-medium text-background/80 transition-colors hover:text-primary"
           >
             aadityakamble.com
             <ArrowUpRight className="h-3.5 w-3.5" />
