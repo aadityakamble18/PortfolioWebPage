@@ -28,11 +28,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const navLinks = [
-  { label: "Work", href: "#projects" },
-  { label: "Projects", href: "#projects" },
-];
-
 const socialLinks = [
   { label: "LinkedIn", href: "https://linkedin.com/in/aadityakamble" },
   { label: "GitHub", href: "https://github.com/aadityakamble" },
@@ -65,28 +60,45 @@ function Header() {
         Aaditya Kamble
       </Link>
       <nav className="hidden items-center gap-8 md:flex">
-        {navLinks.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            {link.label}
-          </a>
-        ))}
+        <a
+          href="#projects"
+          className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        >
+          Work
+        </a>
+        <a
+          href="#projects"
+          className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        >
+          Projects
+        </a>
         <Link
           to="/about"
           className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
         >
           About
         </Link>
+        <Link
+          to="/contact"
+          className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        >
+          Contact
+        </Link>
       </nav>
-      <Link
-        to="/about"
-        className="inline-flex items-center gap-1 rounded-full border border-border px-4 py-2 text-xs font-medium transition-colors hover:border-primary hover:text-primary md:hidden"
-      >
-        About
-      </Link>
+      <div className="flex items-center gap-2 md:hidden">
+        <Link
+          to="/about"
+          className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-2 text-xs font-medium transition-colors hover:border-primary hover:text-primary"
+        >
+          About
+        </Link>
+        <Link
+          to="/contact"
+          className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-2 text-xs font-medium transition-colors hover:border-primary hover:text-primary"
+        >
+          Contact
+        </Link>
+      </div>
     </header>
   );
 }
@@ -181,20 +193,6 @@ function AboutSection() {
               minutiae grow tedious.
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Button asChild>
-                <a href="mailto:aaditya@example.com">
-                  <Mail className="h-4 w-4" />
-                  Get in touch
-                </a>
-              </Button>
-              <Button asChild variant="outline">
-                <Link to="/about">
-                  Read more
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
           </div>
         </div>
       </div>
@@ -269,6 +267,16 @@ function ProjectsSection() {
               </div>
             </article>
           ))}
+        </div>
+
+        <div className="mt-12 flex justify-center">
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary hover:text-primary"
+          >
+            View all projects
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </section>
