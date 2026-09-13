@@ -6,4 +6,10 @@
   - [x] Homepage with hero, about, projects, footer
   - [x] Floating shapes and social/professional footer links
   - [x] Verified build and preview
-- [ ] (Future) Add remaining pages (About, Projects, Contact, etc.)
+- [x] Refine homepage introduction and navigation
+  - [x] Add hero snippet and About link
+  - [x] Replace homepage About copy
+  - [x] Remove resume links
+  - [x] Apply red hover styling to links
+- [x] Add dedicated About page
+- [ ] (Future) Add remaining pages (Projects, Contact, etc.)
