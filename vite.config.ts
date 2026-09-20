@@ -14,7 +14,7 @@ export default defineConfig({
     tanstackStart({
       server: { entry: "server" },
     }),
-    nitro({ preset: "cloudflare-module" }),
+    nitro({ preset: "vercel" }),
     react(),
     tailwindcss(),
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
