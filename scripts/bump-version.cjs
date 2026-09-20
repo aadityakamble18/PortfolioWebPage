@@ -9,7 +9,7 @@ try {
   data.version = currentVersion;
   
   fs.writeFileSync(versionFile, JSON.stringify(data, null, 2) + '\n', 'utf8');
-  console.log(Version bumped to );
+  console.log(`Version bumped to ${currentVersion.toFixed(3)}`);
 } catch (e) {
   console.error('Failed to bump version:', e);
   process.exit(1);
