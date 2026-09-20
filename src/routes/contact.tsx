@@ -138,8 +138,11 @@ function ContactForm() {
     const formData = new FormData(e.currentTarget);
     // TODO: Replace with your actual Web3Forms Access Key
     try {
-      const response = await fetch("https://formsubmit.co/aakamble018@gmail.com", {
+      const response = await fetch("https://formsubmit.co/ajax/aakamble018@gmail.com", {
         method: "POST",
+        headers: {
+          "Accept": "application/json"
+        },
         body: formData,
       });
 
