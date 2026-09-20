@@ -10,7 +10,9 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
+import { useSectionScroll } from "../hooks/useSectionScroll";
 
 function NotFoundComponent() {
   return (
@@ -38,7 +40,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    // console.error("Caught error in root component boundary:", error);
   }, [error]);
 
   return (
@@ -84,14 +86,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Personal portfolio of Aaditya Kamble. Product design, development, and creative direction." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@aadityakamble" },
+      { name: "twitter:site", content: "@redfire_1914" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -121,12 +122,15 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
+  useSectionScroll();
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Header />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <Footer />
     </QueryClientProvider>
   );
 }

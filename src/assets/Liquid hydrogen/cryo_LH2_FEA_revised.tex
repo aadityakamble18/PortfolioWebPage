@@ -1,0 +1,227 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Comparative Finite Element Analysis of Cryogenic Liquid Hydrogen Storage Vessels Under High-Pressure Conditions}
+
+\author{\IEEEauthorblockN{1\textsuperscript{st} Aaditya Kamble}
+\IEEEauthorblockA{\textit{Team Protium} \\
+\textit{IIT Jodhpur}\\
+Jodhpur, India \\
+b22mt024@iitj.ac.in}
+\and
+\IEEEauthorblockN{2\textsuperscript{nd} Sahil}
+\IEEEauthorblockA{\textit{Team Protium} \\
+\textit{IIT Jodhpur}\\
+Jodhpur, India \\
+b22mt023@iitj.ac.in}
+\and
+\IEEEauthorblockN{3\textsuperscript{rd} Vishwjeetsinh Jadeja}
+\IEEEauthorblockA{\textit{Team Protium} \\
+\textit{IIT Jodhpur}\\
+Jodhpur, India \\
+b22mt038@iitj.ac.in}
+}
+
+\maketitle
+
+\begin{abstract}
+Safe, efficient, lightweight storage of liquid hydrogen remains a central bottleneck for aerospace propulsion and hydrogen-based energy systems. Hydrogen is the lightest and most abundant element in the universe, and in its liquid state it offers one of the highest specific-impulse energy sources available to chemical rocket propulsion. Because hydrogen must be cooled to roughly $-252.87^{\circ}$C to liquefy, storage vessels experience a combination of severe thermal contraction and high internal pressurization that few structural materials tolerate simultaneously. This work presents a comparative finite element analysis (FEA) of a large-scale cryogenic liquid hydrogen tank aimed at identifying a practical balance between rigidity, yield strength, and mass. Using Ansys 2023 R1, a thick-walled cylindrical pressure vessel (length 8270 mm, diameter 2300 mm, wall thickness 39 mm) was modeled under an internal pressure of 35 MPa and an environment temperature of $-250^{\circ}$C. Four candidate materials were evaluated: structural steel, AL7075-T6 aluminum alloy, Ti-6Al-4V titanium alloy, and magnesium. Structural steel produced the smallest total deformation (0.23365 m) of the four candidates, but at an estimated wall mass of roughly 18 tonnes for this geometry it is impractical for flight hardware. AL7075-T6 combined a moderate deformation (0.65446 m) with an estimated wall mass of only about 6.4 tonnes, making it the most balanced candidate in this comparison. Ti-6Al-4V, despite its high nominal tensile strength, showed 11.537 m of deformation, indicating that the assumed 39 mm wall thickness is geometrically inadequate for this alloy at the simulated load. These results, together with a review of cryogenic metallurgy literature, are used to argue that AL7075-T6 is the more defensible baseline material for this geometry, while also identifying where the simulation's linear-elastic assumptions likely overstate real deformation and where the analysis should be extended before any design conclusion is treated as final.
+\end{abstract}
+
+\begin{IEEEkeywords}
+liquid hydrogen, cryogenic storage, finite element analysis, hoop stress, aerospace materials, pressure vessels
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{T}{he} push toward deep-space exploration and low-emission terrestrial energy has renewed interest in hydrogen as both a propellant and a fuel. In its liquid state, hydrogen provides an exceptionally high energy-to-mass ratio, and when paired with liquid oxygen it yields the highest specific impulse of any propellant combination in common operational use \cite{sutton2016}.
+
+Reaching the volumetric energy density needed for such applications requires cryogenic liquefaction. At standard atmospheric pressure hydrogen is a gas; converting it to a liquid means cooling it from roughly 300 K to its boiling point near $-252.87^{\circ}$C, a process that is itself energy-intensive. Liquid hydrogen also has an unusually low critical temperature of 33 K, below which no liquid phase can exist regardless of pressure, so storage systems must either remain open to venting or be pressurized closed vessels engineered to hold the fluid well below that threshold. Handling, transport, and storage of LH2 therefore demand both strict safety protocols and structurally robust, well-insulated tankage.
+
+The central design difficulty is that a cryogenic tank must resist two compounding effects at once: thermal contraction and, in some alloys, embrittlement from the extreme cold, plus severe internal pressurization from the stored fluid. A viable material has to withstand these combined multi-axial stresses without brittle fracture while adding as little mass as possible, since every extra kilogram of tank structure is a kilogram of payload the vehicle cannot carry.
+
+To probe this trade-off directly, this study runs a comparative structural simulation of a representative large-scale LH2 tank in Ansys, subjecting the same geometry to an internal pressure of 35 MPa at $-250^{\circ}$C and comparing the structural response of four materials: structural steel, AL7075-T6, Ti-6Al-4V, and magnesium. Where earlier single-material cryotank studies (e.g., aluminum-lithium concepts developed for the Space Shuttle external tank and later SLS applications) optimize one alloy in isolation, this comparison is intended to make the trade-offs between candidate material families explicit for a single fixed geometry.
+
+\section{Theoretical Framework and Literature Review}
+
+\subsection{Mechanics of Thick-Walled Pressure Vessels}
+The structural response of a cryogenic tank wall is governed by classical thick-walled cylinder theory. Under internal pressure, the wall carries three principal stresses: hoop (circumferential) stress, longitudinal stress, and radial stress \cite{boresi2003}.
+
+\begin{itemize}
+    \item \textbf{Hoop stress} acts perpendicular to both the radius and the cylinder axis and tends to split the wall along a diametric plane.
+    \item \textbf{Longitudinal stress} acts along the cylinder axis, resisting the pressure load trying to pull the vessel apart end-to-end.
+    \item \textbf{Radial stress} is coplanar with, but perpendicular to, the axis of symmetry; it equals the negative of the gauge pressure at the bore and falls to zero at the outer surface.
+\end{itemize}
+
+For a cylinder subjected only to internal pressure -- the relevant case here, since the tank exterior is at ambient pressure -- Lam\'e's equations give the hoop stress $\sigma_h$ and radial pressure $P_r$ at radius $r$ as
+\begin{equation}
+    \sigma_h = \frac{\beta}{r^2} + \alpha
+\end{equation}
+\begin{equation}
+    P_r = -\alpha + \frac{\beta}{r^2}
+\end{equation}
+where $\alpha$ and $\beta$ are constants fixed by the boundary conditions \cite{boresi2003}.
+
+With no external pressure ($P_o = 0$), the outer-surface condition reduces to
+\begin{equation}
+    0 = -\alpha + \frac{\beta}{R_o^2}
+\end{equation}
+so that $\alpha = \beta / R_o^2$. Substituting this relation back and solving for the constants gives
+\begin{equation}
+    \beta = \frac{P_i R_i^2 R_o^2}{R_o^2 - R_i^2}
+\end{equation}
+\begin{equation}
+    \alpha = \frac{P_i R_i^2}{R_o^2 - R_i^2}
+\end{equation}
+
+which, substituted back into the original expressions, yields the closed-form hoop and radial stress distributions across the wall:
+\begin{equation}
+    \sigma_h = \frac{P_i R_i^2 \left(1 + \dfrac{R_o^2}{r^2}\right)}{R_o^2 - R_i^2}
+\end{equation}
+\begin{equation}
+    \sigma_r = \frac{P_i R_i^2 \left(1 - \dfrac{R_o^2}{r^2}\right)}{R_o^2 - R_i^2}
+\end{equation}
+
+These closed-form expressions were used only as a sanity check against the Ansys solution near the bore; the reported results throughout the paper come from the FEA solver, not from the analytical formulas.
+
+\subsection{Cryogenic Metallurgy and the Ductile-to-Brittle Transition}
+Analytical stress distributions say nothing about whether a material can actually absorb that stress without fracturing, and that depends heavily on crystal structure at cryogenic temperature. Body-centered cubic (BCC) metals, including plain carbon and low-alloy structural steels, exhibit a ductile-to-brittle transition temperature (DBTT): below this threshold the material loses its capacity for plastic deformation and fails by brittle fracture rather than yielding \cite{dieter1986}. Face-centered cubic (FCC) metals -- aluminum and its alloys among them -- generally do not show this transition; their strength typically \emph{increases} as temperature drops toward cryogenic ranges, which is the main reason aluminum alloys have historically dominated cryogenic tankage \cite{kaufman1999}. Titanium alloys sit in an intermediate position: Boyer's review of titanium in aerospace applications notes that, while Ti-6Al-4V offers an excellent strength-to-weight ratio at room temperature, standard-grade material can lose fracture toughness at cryogenic temperatures, and extra-low-interstitial (ELI) grades are generally required for cryogenic and hydrogen service \cite{boyer1996}. Titanium alloys are additionally susceptible to hydrogen-induced embrittlement through hydride formation, a concern that is separate from -- but compounds -- the effects of cryogenic exposure \cite{tal2005}.
+
+\section{Methodology}
+
+\subsection{Geometrical Modeling and Boundary Conditions}
+The FEA was performed in Ansys 2023 R1. A 3D CAD model of a thick-walled cylindrical pressure vessel was built with:
+\begin{itemize}
+    \item Overall length: 8270 mm
+    \item Diameter: 2300 mm
+    \item Wall thickness: 39 mm
+\end{itemize}
+
+An internal pressure of 35 MPa was applied uniformly to the inner wall to represent a fully pressurized tank, and the environment temperature was set to $-250^{\circ}$C. A single fixed support was applied at the mouth of the vessel to approximate a typical manifold/mounting interface used in launch-vehicle tankage. This is a simplified boundary condition -- a real flight tank would be supported through a distributed skirt or trunnion arrangement -- and is discussed further in Section V-E.
+
+\subsection{Material Selection}
+Four materials spanning a wide range of density and yield strength were compared:
+\begin{itemize}
+    \item \textbf{Structural steel (baseline):} density 7850 kg/m\textsuperscript{3}, Young's modulus $2.07 \times 10^{11}$ Pa, Poisson's ratio 0.3.
+    \item \textbf{AL7075-T6:} aerospace-grade aluminum alloy, density 2.8 g/cc, ultimate tensile strength 572 MPa, yield strength 503 MPa.
+    \item \textbf{Ti-6Al-4V:} titanium alloy, density $4.43 \times 10^{3}$ kg/m\textsuperscript{3}, ultimate tensile strength 950 MPa.
+    \item \textbf{Magnesium:} density $1.77 \times 10^{-6}$ kg/mm\textsuperscript{3}, Young's modulus 45{,}000 kN/mm\textsuperscript{2}.
+\end{itemize}
+
+\subsection{Mesh and Solver Notes}
+All four cases used the same geometry, mesh topology, and boundary conditions, with only the material card changed between runs, so that differences in the reported results can be attributed to material response rather than to discretization differences. Ansys' default solver settings and linear-elastic material behavior were used throughout; no explicit plasticity model, large-deformation (geometric nonlinearity) switch, or mesh-convergence sweep was carried out, a limitation discussed in Section V-E.
+
+\section{Results}
+Table \ref{tab:results} summarizes the peak total deformation, strain energy, equivalent (von Mises) stress, and equivalent elastic strain returned by the solver for each material under the 35 MPa internal load.
+
+\begin{table}[htbp]
+\centering
+\caption{Peak Simulation Values by Material}
+\label{tab:results}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Material} & \textbf{Max Def. (m)} & \textbf{Max Energy (J)} & \textbf{Max Stress (Pa)} & \textbf{Max Strain} \\
+\midrule
+\textbf{Struct. Steel} & 0.23365 & 7934.5 & 7.1931e9 & 0.035969 \\
+\textbf{AL7075-T6} & 0.65446 & 22333.0 & 7.3332e9 & 0.104770 \\
+\textbf{Magnesium} & 1.07490 & 36782.0 & 7.4261e9 & 0.176830 \\
+\textbf{Ti-6Al-4V} & 11.53700 & 5.6862e5 & 4.2923e9 & 0.040141 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Estimated Wall Mass}
+Because density varies by more than a factor of four across the four candidates, deformation alone is not a fair basis for comparison -- a heavier tank is easier to stiffen. Treating the vessel as a simple cylindrical shell with the fixed 39 mm wall thickness (i.e., ignoring dome and manifold details) gives a wall material volume of approximately 2.29 m\textsuperscript{3}. Multiplying by each material's density gives a first-order wall mass estimate:
+
+\begin{table}[htbp]
+\centering
+\caption{Estimated Cylindrical Wall Mass (39 mm thickness, first-order shell approximation)}
+\label{tab:mass}
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Material} & \textbf{Estimated Wall Mass (kg)} \\
+\midrule
+Structural Steel & $\approx$ 17{,}980 \\
+Ti-6Al-4V & $\approx$ 10{,}150 \\
+AL7075-T6 & $\approx$ 6{,}415 \\
+Magnesium & $\approx$ 4{,}055 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This estimate excludes end-cap and manifold mass and assumes constant thickness, so it should be read as an ordering argument rather than a flight-weight figure. Even so, it shows why steel's low deformation is not, by itself, a useful design conclusion: it is bought with roughly 2.8 times the mass of AL7075-T6 and 4.4 times the mass of magnesium for the same geometry.
+
+\subsection{Baseline Rigid Response: Structural Steel}
+Structural steel gave the most mechanically stable response of the four materials, with the smallest deformation (0.23365 m) and the lowest strain energy (7934.5 J), consistent with a near-linear stress accumulation under the 35 MPa load.
+
+\subsection{Aerospace Equilibrium: AL7075-T6}
+AL7075-T6 reached a peak deformation of 0.65446 m and a strain energy of 22{,}333 J -- both higher than steel, but the equivalent elastic strain (0.10477) stayed in a range consistent with distributed load-carrying rather than runaway deformation, and it does so at roughly a third of steel's estimated wall mass.
+
+\subsection{Lightweight Instability: Magnesium}
+Magnesium recorded the highest equivalent stress of the four materials, 7.4261e9 Pa, along with 1.0749 m of deformation and 36{,}782 J of strain energy. The stepped, non-linear character of its stress-strain response in the solver output is consistent with rapid internal yielding rather than a controlled elastic response.
+
+\subsection{Catastrophic Yielding: Ti-6Al-4V}
+Despite its 950 MPa ultimate tensile strength, Ti-6Al-4V showed by far the largest deformation of the study, 11.537 m, and the highest strain energy, 5.6862e5 J. Its equivalent stress was, counterintuitively, the \emph{lowest} of the four materials (4.2923e9 Pa) -- a pattern consistent with the wall having essentially lost its ability to carry additional load once large-strain, geometry-dominated deformation set in, rather than with the material being under-stressed.
+
+\section{Discussion}
+
+\subsection{The Structural Steel DBTT Limitation}
+Structural steel's simulated rigidity (0.23365 m deformation, 7934.5 J strain energy) looks attractive in isolation, but two practical issues rule it out for flight hardware. First, ordinary BCC structural steels undergo a ductile-to-brittle transition around $-40^{\circ}$C \cite{dieter1986}; at the simulated $-250^{\circ}$C environment temperature, real hardware of this composition would be expected to fail by brittle fracture well before reaching the elastic limits implied by a purely linear-elastic FEA run. Second, even setting metallurgy aside, the roughly 18-tonne estimated wall mass (Table \ref{tab:mass}) is disqualifying for any payload-constrained launch vehicle application.
+
+\subsection{Titanium: Geometric Underdesign, Not Just Material Weakness}
+The most instructive result in this study is that Ti-6Al-4V -- nominally the strongest material of the four by ultimate tensile strength -- produced the worst deformation by an order of magnitude. Boyer's review notes that titanium alloys can lose fracture toughness at cryogenic temperature unless ELI grades are used \cite{boyer1996}, and hydrogen exposure compounds this through hydride-driven embrittlement \cite{tal2005}; but the FEA result here points at least as strongly to a geometric problem as a metallurgical one. The combination of low equivalent stress and enormous deformation is the signature of a wall that is too thin, relative to titanium's stiffness and this vessel's diameter, to resist ovalization and bending under internal pressure -- the tank effectively runs out of geometric stiffness before it runs out of material strength. This suggests that a fair comparison would need to let wall thickness vary by material rather than holding it fixed at 39 mm, and that parametric thickness optimization is a necessary next step before any titanium design can be judged on its metallurgical merits.
+
+\subsection{Magnesium and Hexagonal Close-Packed Limitations}
+Magnesium's HCP crystal structure provides comparatively few independent slip systems for plastic deformation, a limitation that tends to worsen at low temperature \cite{dieter1986}. The simulation's highest equivalent stress (7.4261e9 Pa) and stepped, non-linear response are consistent with a material reaching its load-carrying limit rapidly rather than deforming in a controlled way. Despite its very low estimated wall mass ($\approx$4,055 kg), this combination of high stress concentration and limited ductility makes magnesium a poor candidate for a pressurized cryogenic vessel without a fundamentally different design (e.g., a liner-and-overwrap construction rather than a monolithic wall).
+
+\subsection{Aluminum as a Practical Cryogenic Baseline}
+AL7075-T6's moderate deformation (0.65446 m), controlled strain energy (22{,}333 J), and roughly a third of steel's estimated wall mass make it the most balanced of the four candidates in this comparison. This is broadly consistent with the aluminum cryogenic literature: because FCC aluminum alloys do not exhibit a DBTT and often gain strength as temperature drops \cite{kaufman1999}, they have been the default choice for cryogenic propellant tankage historically, from 2219 and 7075 on early launch vehicles through to aluminum-lithium alloys such as 2195 and 2050 used on the Space Shuttle external tank and Space Launch System, which were adopted specifically for the combination of lower density and higher cryogenic strength they offer over legacy aluminum alloys.
+
+\subsection{Limitations of the Present Model}
+Several simplifications constrain how far these results should be generalized:
+\begin{itemize}
+    \item \textbf{Linear-elastic material behavior.} The solver runs used linear-elastic material cards without an explicit plasticity model. Deformations on the order of meters for an 8.27 m long vessel are far outside the small-strain regime that linear elasticity is valid for; in reality, a material undergoing this much predicted elastic strain would yield, buckle, or rupture well before reaching the reported peak values. The results are therefore best read as a relative ranking of how quickly each material's linear-elastic response diverges under load, not as literal predicted displacements of the physical tank.
+    \item \textbf{No geometric nonlinearity.} Large-deflection effects were not enabled, which further limits the quantitative accuracy of the large-deformation cases (Ti-6Al-4V and magnesium in particular).
+    \item \textbf{Fixed wall thickness across materials.} Holding thickness constant at 39 mm isolates material effects but, as the titanium result shows, can make a geometrically underdesigned case look like a material failure.
+    \item \textbf{Single fixed support.} A single fixed constraint at the vessel mouth does not represent the distributed skirt, trunnion, or saddle supports used on real flight tanks, and will concentrate reaction stresses near the constraint in ways a distributed support would not.
+    \item \textbf{No thermal-structural coupling detail.} The $-250^{\circ}$C environment temperature was applied as a boundary condition rather than resolved through a transient thermal analysis, so thermal-gradient-induced stresses during fill and chill-down are not captured.
+    \item \textbf{No mesh-convergence study.} Results were taken from the default mesh without a refinement study, so some quantitative uncertainty in the reported peak values should be expected.
+\end{itemize}
+None of these limitations change the qualitative ranking discussed above, but they do mean the specific numerical values in Table \ref{tab:results} should be treated as a screening-level comparison rather than a certifiable structural result.
+
+\section{Conclusion}
+This comparative FEA study modeled a representative cylindrical liquid hydrogen tank (8270 mm length, 2300 mm diameter, 39 mm wall thickness) under a 35 MPa internal load at $-250^{\circ}$C to compare four candidate materials. Three conclusions follow from the combination of simulation results, mass estimates, and metallurgical literature:
+
+\begin{enumerate}
+    \item \textbf{Rigidity is not the same as viability.} Structural steel gave the smallest simulated deformation (0.23365 m) and lowest strain energy (7934.5 J), but its estimated $\approx$18-tonne wall mass and known cryogenic embrittlement below about $-40^{\circ}$C rule it out for aerospace use \cite{dieter1986}.
+    \item \textbf{A fixed wall thickness does not fairly test every material.} Ti-6Al-4V and magnesium both showed severe deformation (11.537 m and 1.0749 m, respectively) at 39 mm wall thickness; for titanium in particular, this looks more like a geometry problem than a pure material-strength problem, and should be re-examined with material-specific thickness optimization before titanium is dismissed on strength grounds alone.
+    \item \textbf{AL7075-T6 is the most defensible baseline for this geometry.} It combined moderate deformation (0.65446 m), controlled strain energy, and roughly a third of steel's estimated wall mass, consistent with the historical preference for FCC aluminum alloys in cryogenic tankage \cite{kaufman1999}.
+\end{enumerate}
+
+\vspace{0.5cm}
+\noindent \textbf{Future Scope:}\\
+The clearest next step is a parametric thickness sweep for Ti-6Al-4V and magnesium to determine whether either can be made competitive with a re-optimized (rather than fixed) wall thickness, together with a nonlinear (large-deflection, elastic-plastic) re-run of the high-deformation cases to replace the linear-elastic approximation used here. A transient thermal-structural analysis of the fill and chill-down sequence would capture stresses this static model cannot. Finally, composite and composite-overwrapped pressure vessel (COPV) architectures -- a metallic or polymer liner overwrapped with carbon fiber, as analyzed by William et al. \cite{william2013} and, more recently, by Kartav et al. \cite{kartav2021} -- represent a materially different design path worth comparing directly against the monolithic-wall designs examined here, since they decouple the pressure-containment and permeation-barrier functions in a way none of the four materials in this study can.
+
+\begin{thebibliography}{00}
+\bibitem{boyer1996} R. R. Boyer, ``An overview on the use of titanium in the aerospace industry,'' \textit{Materials Science and Engineering: A}, vol. 213, no. 1-2, pp. 103--114, 1996.
+\bibitem{dieter1986} G. E. Dieter, \textit{Mechanical Metallurgy}, 3rd ed. New York, NY, USA: McGraw-Hill, 1986.
+\bibitem{kaufman1999} J. G. Kaufman, \textit{Properties of Aluminum Alloys: Tensile, Creep, and Fatigue Data at High and Low Temperatures}. Materials Park, OH, USA: ASM International, 1999.
+\bibitem{sutton2016} G. P. Sutton and O. Biblarz, \textit{Rocket Propulsion Elements}, 9th ed. Hoboken, NJ, USA: John Wiley \& Sons, 2016.
+\bibitem{boresi2003} A. P. Boresi and R. J. Schmidt, \textit{Advanced Mechanics of Materials}, 6th ed. New York, NY, USA: John Wiley \& Sons, 2003.
+\bibitem{tal2005} E. Tal-Gutelmacher and D. Eliezer, ``The hydrogen embrittlement of titanium-based alloys,'' \textit{JOM}, vol. 57, no. 9, pp. 46--49, 2005.
+\bibitem{william2013} G. William, S. Shoukry, J. Prucz, and T. Evans, ``Finite element analysis of composite over-wrapped pressure vessels for hydrogen storage,'' \textit{SAE Int. J. Passeng. Cars -- Mech. Syst.}, vol. 6, no. 2, pp. 1051--1057, 2013.
+\bibitem{kartav2021} O. Kartav, S. Kangal, K. Y\"uceturk, M. Tano\u{g}lu, E. Akta\c{s}, and H. S. Artem, ``Development and analysis of composite overwrapped pressure vessels for hydrogen storage,'' \textit{Journal of Composite Materials}, vol. 55, no. 30, pp. 4247--4266, 2021.
+\end{thebibliography}
+
+\end{document}

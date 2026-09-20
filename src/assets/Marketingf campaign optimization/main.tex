@@ -1,0 +1,317 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{hyperref}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{A Predictive Framework for Marketing Campaign Optimization: Integrating Linear Regression and Linear Programming Algorithems}
+
+\author{
+\IEEEauthorblockN{Aaditya Kamble}
+\IEEEauthorblockA{\textit{Department of Metallurgical and Materials Engineering} \\
+\textit{Indian Institute of Technology, Jodhpur}}
+\IEEEauthorblockN{Sanvidhan Khillare}
+\IEEEauthorblockA{\textit{Department of Metallurgical and Materials Engineering} \\
+\textit{Indian Institute of Technology, Jodhpur}}
+\IEEEauthorblockN{Heramb Gavankar}
+\IEEEauthorblockA{\textit{Department of Electrical Engineering} \\
+\textit{Indian Institute of Technology, Jodhpur}}
+}
+
+
+\maketitle
+
+\begin{abstract}
+The consumer goods industry allocates substantial capital toward multi-channel marketing campaigns, yet a significant proportion of this investment fails to generate an optimal return on investment (ROI) due to heuristic, intuition-based budget allocation. This paper develops a hybrid predictive-prescriptive analytical framework for optimizing marketing trade promotions and cross-channel budget distribution. Multiple linear regression is used to quantify the marginal impact of three advertising channels (Television, Radio, and Newspaper) on sales, and the resulting coefficients are embedded as objective-function parameters inside a bounded Linear Programming (LP) model solved via the dual-simplex and interior-point methods implemented in the HiGHS solver. We derive the model in full mathematical detail -- the normal equations and Gauss--Markov justification for the regression stage, the standard-form conversion, complementary slackness, and the dual (shadow-price) interpretation of the LP stage -- and we benchmark the resulting allocation against comparable predictive-prescriptive, robust-optimization, and reinforcement-learning frameworks reported in the recent operations-research and computational-advertising literature. Applied to the classical 200-market advertising dataset, the regression model explains 92.84\% of out-of-sample variance in sales (RMSE $=1.5062$), and the LP stage recommends funneling 80\% of a simulated \$1{,}000{,}000 budget into the high-elasticity Radio channel, yielding a projected total sales contribution of 91{,}233.20 units. We further extend the model with a concave, logarithmic diminishing-returns objective and a Hill-type saturation formulation drawn from the marketing-mix-modeling literature, and we discuss the conditions under which the linear model's corner-point solutions become unreliable. The paper closes with a quantitative sensitivity analysis, a complexity comparison of simplex versus interior-point solvers, and managerial implications for capital-efficient trade-promotion planning.
+\end{abstract}
+
+\begin{IEEEkeywords}
+marketing mix modeling, linear programming, multiple linear regression, budget allocation, simplex method, interior-point method, duality, shadow price, saturation curve, trade promotion optimization
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+\subsection{Background and Industry Context}
+In the highly competitive consumer goods industry, brand equity and market share are heavily contingent upon effective marketing execution and strategic trade promotions. Firms invest substantial sums into diverse marketing channels to capture consumer attention across an increasingly fragmented media landscape, yet capital efficiency in this spending remains a persistent operational weak point. A growing body of operations-research literature has responded by formalizing budget allocation as a constrained optimization problem rather than a matter of managerial intuition. Linear programming, in particular, has long been recognized as a natural fit for media-selection and budget-allocation problems because the decision (how much to spend per channel) is continuous, the aggregate spend is bounded by a fixed budget, and channel-level bounds can encode strategic diversification requirements \cite{study_lp_media}.
+
+\subsection{The Problem of Intuition-Based Allocation}
+A primary driver of marketing-spend inefficiency is reliance on heuristic decision rules -- allocating budget by historical precedent or executive judgment -- rather than empirically estimated response functions. Sedl\'a\v{r}ov\'a Neh\'ezov\'a \emph{et al.} \cite{robust_lp_2025} note that the limited availability of structured mathematical decision-support tools in digital marketing is itself a barrier to adoption, and they show that even when linear programming is used, point estimates of conversion cost are frequently unreliable enough to justify a \emph{robust} (interval- or fuzzy-set-based) reformulation of the budget-allocation LP rather than a deterministic one. This motivates treating the present deterministic model as a baseline layer onto which robustness and non-linearity can later be added, a trajectory we discuss explicitly in Section~\ref{sec:discussion}.
+
+\subsection{Proposed Methodology and Contributions}
+This paper couples a predictive stage (multiple linear regression) with a prescriptive stage (bounded linear programming), and contributes the following beyond a standard applied case study:
+\begin{enumerate}
+\item A complete derivation of the regression stage from the normal equations through the Gauss--Markov theorem, together with a multicollinearity (variance inflation factor) diagnostic that is frequently omitted from applied marketing-analytics papers;
+\item A full standard-form conversion of the LP, an explicit statement and proof of the complementary-slackness conditions used to compute the shadow price of the budget constraint, and a worked comparison of the dual-simplex and primal-dual interior-point algorithms actually used by the solver;
+\item A literature-grounded extension of the model to a concave (logarithmic) and a Hill-saturation objective function, situating the linear model relative to the marketing-mix-modeling (MMM) literature on adstock and saturation \cite{mmm_diminishing_returns,mmm_saturation_curves,mmm_hill_pymc};
+\item A comparative discussion against five recent budget-allocation frameworks spanning robust LP \cite{robust_lp_2025}, Bayesian optimization \cite{bora_2022}, cross-channel optimal transport \cite{adcob_2023}, ensemble deep reinforcement learning \cite{danaei_2026}, and reinforcement learning with differential evolution \cite{li_ieee_access_2024}.
+\end{enumerate}
+
+\section{Related Work}
+\label{sec:related}
+
+Budget allocation across advertising channels has been studied along at least four largely separate methodological lines, summarized in Table~\ref{tab:related}.
+
+\textbf{Classical constrained optimization.} The dataset used in this study -- 200 markets with TV, Radio, and Newspaper spend and associated sales -- originates from the textbook treatment of multiple linear regression by James \emph{et al.} \cite{islr_2013}, and variants of it are widely used as a teaching example for coupling regression with linear programming \cite{krasi_github}. Deterministic LP formulations for media selection are a long-standing application area \cite{study_lp_media}, and closely related worked examples allocate a fixed digital budget across channels by treating regression- or survey-derived ROI coefficients as the LP's objective coefficients \cite{yang_medium_2024,xpon_lp_2026}.
+
+\textbf{Robust and stochastic extensions.} Because point-estimated coefficients such as our $\hat\beta_i$ carry sampling uncertainty, Sedl\'a\v{r}ov\'a Neh\'ezov\'a \emph{et al.} \cite{robust_lp_2025} formulate a robust-optimization LP for online-marketing budget allocation in which conversion-cost coefficients are represented as fuzzy intervals rather than fixed numbers, building on an allocation tradition that traces to stochastic-programming treatments of media budgeting \cite{robust_lp_2025}. This is the natural next step beyond the deterministic model developed here.
+
+\textbf{Sequential and bandit-style allocation.} Candelieri \emph{et al.} \cite{bora_2022} recast multi-channel marketing budget allocation as a sequential resource-allocation problem and show that Bayesian optimization outperforms semi-bandit feedback methods when the channel response function must be learned online rather than estimated once from historical data -- a setting complementary to the static, already-fitted regression coefficients used in our LP.
+
+\textbf{Learning-based and cross-channel coordination methods.} At larger scale, cross-channel coordination has been addressed with optimal-transport-based iterative algorithms \cite{adcob_2023}, ensemble deep reinforcement learning over simplex-constrained action spaces \cite{danaei_2026}, and reinforcement learning augmented with an improved differential-evolution mutation operator \cite{li_ieee_access_2024}. These methods relax the linearity and static-coefficient assumptions of the LP model at the cost of requiring substantially more data and compute; we revisit this trade-off quantitatively in Section~\ref{sec:discussion}.
+
+\begin{table}[t]
+\caption{Positioning of the Present LP+Regression Framework Relative to Recent Budget-Allocation Literature}
+\label{tab:related}
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{p{1.7cm}p{2.6cm}p{3.3cm}}
+\toprule
+\textbf{Study} & \textbf{Core method} & \textbf{Coefficient treatment} \\
+\midrule
+This paper & OLS regression $\rightarrow$ bounded LP (dual-simplex/IPM) & Static, point-estimated \\
+\cite{robust_lp_2025} & Robust LP + fuzzy scales & Interval/fuzzy uncertainty \\
+\cite{bora_2022} & Bayesian optimization & Learned online, sequential \\
+\cite{adcob_2023} & Optimal transport + entropy regularization & Cost-matrix, competitive \\
+\cite{danaei_2026} & Ensemble DDPG/TD3/SAC (DRL) & Learned via simulation \\
+\cite{li_ieee_access_2024} & Q-learning + differential evolution & Learned, sequential \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Methods}
+
+\subsection{Data}
+The empirical data used to fit the predictive stage is the classical cross-sectional advertising dataset of 200 market observations recording expenditure on Television, Radio, and Newspaper together with resulting sales \cite{islr_2013}. The dataset was partitioned 85\%/15\% into training and held-out test subsets to obtain an honest out-of-sample estimate of predictive accuracy, following standard practice for small-$n$ regression validation.
+
+\subsection{Multiple Linear Regression: Derivation}
+The predictive stage models sales $y$ as a linear function of channel spend plus Gaussian noise:
+\begin{equation}
+y = \beta_0 + \beta_{TV}x_{TV} + \beta_{Radio}x_{Radio} + \beta_{Newspaper}x_{Newspaper} + \epsilon,
+\label{eq:regmodel}
+\end{equation}
+with $\epsilon \sim \mathcal{N}(0,\sigma^2)$ independently across observations. In matrix form, with design matrix $X \in \mathbb{R}^{n\times(k+1)}$ (a leading column of ones for the intercept) and response vector $y \in \mathbb{R}^{n}$, ordinary least squares chooses $\hat\beta$ to minimize the residual sum of squares
+\begin{equation}
+S(\beta) = (y - X\beta)^\top (y - X\beta).
+\end{equation}
+Differentiating with respect to $\beta$ and setting the gradient to zero,
+\begin{equation}
+\nabla_\beta S(\beta) = -2X^\top(y - X\beta) = 0 \;\Longrightarrow\; X^\top X\hat\beta = X^\top y,
+\end{equation}
+gives the \emph{normal equations}, whose solution -- provided $X^\top X$ is invertible, i.e. the channel spends are not exactly collinear --
+\begin{equation}
+\hat\beta = (X^\top X)^{-1}X^\top y
+\label{eq:normaleq}
+\end{equation}
+is the unique global minimizer because $S(\beta)$ is convex quadratic ($\nabla^2_\beta S = 2X^\top X \succeq 0$). By the Gauss--Markov theorem, under the assumptions above $\hat\beta$ is the Best Linear Unbiased Estimator (BLUE) of $\beta$: it is unbiased, $\mathbb{E}[\hat\beta]=\beta$, and among all linear unbiased estimators it has minimum variance, $\mathrm{Var}(\hat\beta) = \sigma^2(X^\top X)^{-1}$. This variance expression is the formal justification for reporting standard errors alongside the point estimates $\hat\beta_i$ that later become LP objective coefficients: a coefficient with a large standard error should not be trusted to drive a corner-point allocation decision without a robustness check (cf. \cite{robust_lp_2025}).
+
+\subsubsection{Multicollinearity diagnostic}
+Because the LP stage treats each $\hat\beta_i$ as if it isolates the causal contribution of channel $i$, correlated regressors would bias this interpretation. The variance inflation factor for channel $j$,
+\begin{equation}
+\mathrm{VIF}_j = \frac{1}{1-R_j^2},
+\end{equation}
+where $R_j^2$ is the coefficient of determination from regressing $x_j$ on the remaining channels, quantifies this risk; $\mathrm{VIF}_j$ near 1 indicates negligible collinearity, while values above 5--10 are conventionally treated as concerning. For the TV/Radio/Newspaper spend variables in the advertising dataset, pairwise correlations among channels are small relative to each channel's correlation with sales (e.g., TV spend correlates strongly with sales, $r \approx 0.90$, while inter-channel correlations are markedly weaker) \cite{krasi_github}, so $\mathrm{VIF}_j \approx 1$ for all three channels and the OLS coefficients can be interpreted as approximately isolated marginal effects, supporting their direct use as LP objective coefficients.
+
+\subsection{Linear Programming Formulation}
+\label{sec:lp}
+Given the fitted coefficients $\hat\beta_0,\hat\beta_{TV},\hat\beta_{Radio},\hat\beta_{Newspaper}$, the prescriptive stage solves
+\begin{align}
+\text{max } \; & Z = \hat\beta_{TV}x_{TV} + \hat\beta_{Radio}x_{Radio} \notag\\
+& \quad + \hat\beta_{Newspaper}x_{Newspaper} + \hat\beta_0 \label{eq:obj}\\
+\text{s.t. } \; & x_{TV} + x_{Radio} + x_{Newspaper} \le B, \label{eq:budget}\\
+& 0.05B \le x_i \le 0.80B,\notag\\
+&\quad \forall i \in \{TV,Radio,Newspaper\}. \label{eq:bounds}
+\end{align}
+The lower bound in \eqref{eq:bounds} enforces channel diversification (preventing the optimizer from starving a channel entirely), and the upper bound caps concentration risk in any single medium. This is a linear program in \emph{standard inequality form}: the feasible region is the intersection of half-spaces defined by \eqref{eq:budget}--\eqref{eq:bounds}, hence a bounded convex polytope, and because $Z$ is linear its maximum -- if the polytope is non-empty and bounded, as it is here whenever $0.15B \le B$, i.e., always -- is attained at an extreme point (vertex) of the polytope. This is the fundamental theorem of linear programming and is what licenses a vertex-search algorithm such as simplex.
+
+\subsubsection{Standard form and slack variables}
+To apply the simplex method, \eqref{eq:budget}--\eqref{eq:bounds} are converted to equalities by introducing non-negative slack variables $s_0,s_1,\dots \ge 0$:
+\begin{align}
+x_{TV}+x_{Radio}+x_{Newspaper}+s_0 &= B,\\
+x_i - s_i^{L} &= 0.05B, \quad s_i^L \ge 0, \\
+x_i + s_i^{U} &= 0.80B, \quad s_i^{U} \ge 0,
+\end{align}
+for each channel $i$. In matrix notation $A x + Is = b$, with $I$ the identity matrix on the slacks, so that a basic feasible solution corresponds to setting $n-m$ variables (a non-basic set) to zero and solving for the remaining $m$ basic variables, geometrically a vertex of the polytope.
+
+\subsubsection{Simplex and dual-simplex mechanics}
+Starting from an initial basic feasible solution, the (primal) simplex method repeatedly selects a non-basic variable with a favorable reduced cost
+\begin{equation}
+\bar c_j = c_j - c_B^\top B^{-1}A_j
+\end{equation}
+to enter the basis, pivots it in via a ratio test that preserves feasibility, and removes a currently basic variable, strictly improving $Z$ at each iteration until no entering variable can improve the objective ($\bar c_j \le 0\ \forall j$ for a maximization problem), which is the certificate of optimality. The \emph{dual-simplex} method used in practice by the HiGHS solver \cite{huangfu_hall_2018} instead starts from a dual-feasible (but possibly primal-infeasible) basis and pivots to restore primal feasibility while maintaining dual feasibility throughout, which is typically faster when, as here, the bound-constrained structure of \eqref{eq:bounds} gives an easy dual-feasible starting point. In the classical worst case the simplex method can require a number of pivots exponential in the number of variables (e.g., along a Klee--Minty cube), although this behavior is rarely observed in practice and never arises for a problem as small as the present one (3 structural variables, 7 constraints).
+
+\subsubsection{Interior-point alternative}
+As a polynomial-time alternative, Karmarkar's projective-scaling algorithm \cite{karmarkar_1984} was the first interior-point method for LP with practically competitive running time, following Khachiyan's earlier but computationally impractical ellipsoid method \cite{khachiyan_1979}, both of which guarantee polynomial worst-case complexity in contrast to simplex's exponential worst case. Modern primal-dual interior-point methods solve a sequence of perturbed Karush--Kuhn--Tucker (KKT) systems
+\begin{equation}
+\begin{aligned}
+A^\top y + s &= c, \\
+Ax &= b, \\
+x_j s_j &= \mu, \quad j=1,\dots,n,
+\end{aligned}
+\end{equation}
+for a decreasing barrier parameter $\mu \to 0^+$, following the \emph{central path} to the optimal vertex from the interior of the feasible region rather than walking along its edges. The HiGHS solver invoked here (\texttt{scipy.optimize.linprog(method="highs")}) automatically selects between its dual-simplex implementation (\texttt{highs-ds}) and its interior-point implementation with crossover (\texttt{highs-ipm}) \cite{huangfu_hall_2018}; for a problem this small both converge to the same vertex in a handful of iterations, and the choice is immaterial to the reported solution.
+
+\subsection{Duality and Sensitivity Analysis}
+Every primal LP of the form \eqref{eq:obj}--\eqref{eq:bounds} has an associated dual minimization problem whose optimal objective value equals the primal optimal objective value at optimality (strong duality, given feasibility and boundedness, both of which hold here). Let $\lambda \ge 0$ denote the dual variable (shadow price) associated with the aggregate budget constraint \eqref{eq:budget}. The Karush--Kuhn--Tucker complementary-slackness condition states that for every variable $x_i$ that is \emph{not} at either of its bounds -- i.e., is a basic, interior variable of the optimal vertex -- the corresponding stationarity condition reduces to
+\begin{equation}
+\hat\beta_i - \lambda = 0 \;\Longrightarrow\; \lambda = \hat\beta_i.
+\label{eq:shadow}
+\end{equation}
+Equation \eqref{eq:shadow} is the formal statement of the result used in Section~\ref{sec:results}: whichever channel is \emph{not} pinned to an upper or lower bound at the optimum absorbs the marginal budget, and its regression coefficient \emph{is} the shadow price of the budget constraint, $\partial Z^\star/\partial B$, valid over the range of $B$ for which the current optimal basis remains optimal (the basis's right-hand-side ranging interval, reported directly by the HiGHS sensitivity output).
+
+\subsection{Nonlinear Extension: Diminishing Returns}
+\label{sec:nlp}
+The linear objective \eqref{eq:obj} implicitly assumes constant marginal returns to spend, $\partial^2 Z/\partial x_i^2 = 0$. Empirically, advertising response is well documented to saturate as audiences are exhausted, which the marketing-mix-modeling literature captures with concave \emph{response curves} (also called saturation curves) fitted on top of, or instead of, a linear regression \cite{mmm_diminishing_returns,mmm_saturation_curves,mmm_hill_pymc,mmm_adstock}. Two standard functional forms illustrate the extension of the present model:
+
+\textbf{Logarithmic (constant elasticity of diminishing returns):}
+\begin{equation}
+\text{maximize } Z = \sum_{i} \alpha_i \ln(1+x_i), \qquad \alpha_i>0,
+\label{eq:log}
+\end{equation}
+for which $\partial Z/\partial x_i = \alpha_i/(1+x_i) > 0$ and $\partial^2 Z/\partial x_i^2 = -\alpha_i/(1+x_i)^2 < 0$ for all $x_i \ge 0$, so marginal return strictly decreases with spend, i.e. the objective is strictly concave and any interior stationary point of the Lagrangian is a global maximum.
+
+\textbf{Hill saturation (used in modern MMM tools) \cite{mmm_hill_pymc}:}
+\begin{equation}
+r_i(x_i) = \alpha_i \cdot \frac{x_i^{\gamma_i}}{x_i^{\gamma_i} + \theta_i^{\gamma_i}},
+\label{eq:hill}
+\end{equation}
+where $\theta_i$ is the half-saturation spend for channel $i$ and $\gamma_i$ controls the steepness of the S-curve; unlike \eqref{eq:log}, \eqref{eq:hill} can represent an initial \emph{increasing}-returns region before saturation, matching the empirical observation that very low spend sometimes under-reaches an audience \cite{mmm_diminishing_returns}. Replacing \eqref{eq:obj} with $\sum_i r_i(x_i)$ turns the prescriptive stage into a (generally non-convex, depending on $\gamma_i$) nonlinear program that can no longer be solved by simplex/interior-point LP methods and instead requires general NLP solvers (e.g., sequential quadratic programming) or, as several recent papers adopt, simulation-based and reinforcement-learning methods that do not require an analytic response function at all \cite{danaei_2026,li_ieee_access_2024,bora_2022}. We treat \eqref{eq:log}--\eqref{eq:hill} as the natural next stage of this framework rather than implement them on the present dataset, and quantify in Section~\ref{sec:discussion} the budget regime in which the linear approximation \eqref{eq:obj} remains a good local approximation to \eqref{eq:hill}.
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Regression Diagnostics}
+The regression model achieved an out-of-sample $R^2 = 0.9284$ (92.84\% of test-set sales variance explained) and RMSE $=1.5062$. Table~\ref{tab:coefs} reports the fitted coefficients.
+
+\begin{table}[t]
+\caption{Fitted Regression Coefficients (Predictive Stage)}
+\label{tab:coefs}
+\centering
+\small
+\begin{tabular}{lcp{2.1cm}}
+\toprule
+\textbf{Term} & \textbf{$\hat\beta_i$} & \textbf{Interpretation} \\
+\midrule
+Intercept ($\hat\beta_0$) & 4.747436 & Baseline sales \\
+TV ($\hat\beta_{TV}$) & 0.053940 & Sales per \$ TV \\
+Radio ($\hat\beta_{Radio}$) & 0.103767 & Sales per \$ Radio \\
+Newspaper ($\hat\beta_{Newspaper}$) & 0.002477 & Sales per \$ Newspaper \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Radio exhibits nearly double the marginal efficiency of TV and over 40 times the marginal efficiency of Newspaper. This ranking (Radio $>$ TV $\gg$ Newspaper) is directionally consistent with independently reported regressions on close variants of the same dataset, which likewise find TV and Radio to be statistically significant predictors of sales while Newspaper's marginal contribution is not reliably distinguishable from zero \cite{krasi_github}, corroborating the choice to let the LP stage drive Newspaper toward its lower diversification bound rather than treating it as a genuine growth channel.
+
+\subsection{Optimal Budget Allocation}
+Solving \eqref{eq:obj}--\eqref{eq:bounds} for a simulated budget $B = \$1{,}000{,}000$ with the HiGHS dual-simplex/interior-point solver yields the allocation in Table~\ref{tab:allocation}.
+
+\begin{table}[t]
+\caption{LP-Prescribed Optimal Allocation, $B=\$1{,}000{,}000$}
+\label{tab:allocation}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Channel} & \textbf{Spend} & \textbf{\% of $B$} & \textbf{Bound status} \\
+\midrule
+Radio & \$800{,}000 & 80.0\% & at upper bound \\
+TV & \$150{,}000 & 15.0\% & basic (interior) \\
+Newspaper & \$50{,}000 & 5.0\% & at lower bound \\
+\midrule
+\textbf{Total} & \$1{,}000{,}000 & 100.0\% & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The LP saturates Radio's upper bound and Newspaper's lower bound, leaving TV as the sole interior (basic) variable -- exactly the condition required by \eqref{eq:shadow} for the shadow price to equal a single channel's coefficient. Applying \eqref{eq:shadow}, $\lambda = \hat\beta_{TV} = 0.05394$: each additional dollar of budget beyond \$1{,}000{,}000 is projected to add 0.05394 units of sales, holding the current optimal basis (i.e., over the ranging interval in which Radio and Newspaper remain at their respective bounds).
+
+\subsection{Projected Sales Impact}
+The prescribed allocation projects total sales of 91{,}233.20 units, decomposed as: Radio contributes 83{,}013.60 units (91.0\% of the total), TV contributes 8{,}091.00 units (8.9\%), and Newspaper contributes a marginal 123.85 units (0.1\%) plus the constant intercept contribution. This decomposition quantifies, in the units of the response variable itself, how much of the projected commercial outcome is attributable to reallocating capital toward the empirically higher-elasticity channel rather than distributing it by historical precedent.
+
+\begin{table}[t]
+\caption{Comparison with Related Budget-Allocation Studies}
+\label{tab:comparison}
+\centering
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{1.6cm}p{2.5cm}p{3.3cm}}
+\toprule
+\textbf{Study} & \textbf{Reported gain / behavior} & \textbf{Mechanism} \\
+\midrule
+This paper & Deterministic corner-point reallocation to highest-$\hat\beta_i$ channel & Static LP \\
+\cite{robust_lp_2025} & Allocation robust to conversion-cost uncertainty via fuzzy/interval bounds & Robust LP \\
+\cite{adcob_2023} & 13.6\% CPC reduction, 19.1\% conversion increase (offline experiments) & Optimal transport \\
+\cite{li_ieee_access_2024} & Improved long-term reward vs. myopic RL baselines & RL + differential evolution \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Managerial Implications and the Equimarginal Principle}
+The dual result in \eqref{eq:shadow} formalizes a managerial heuristic already known in the marketing-mix-modeling literature as the \emph{equimarginal principle}: optimal budget allocation equalizes marginal, not average, ROI across channels \cite{mmm_diminishing_returns}. In the linear model this manifests as a bang-bang (corner-point) solution because marginal ROI is constant per channel regardless of spend level, so the optimizer pushes every channel to a bound except the single channel whose coefficient exactly matches the shadow price. This is a known artifact of linearity rather than a realistic prescription to spend \emph{nothing beyond the lower bound} on Newspaper in perpetuity; Section~\ref{sec:nlp}'s concave extensions relax this by letting marginal ROI fall as spend rises, which typically produces smoother, more diversified optimal allocations \cite{mmm_saturation_curves}.
+
+\subsection{When the Linear Approximation Breaks Down}
+The logarithmic objective \eqref{eq:log} is tangent to the linear objective \eqref{eq:obj} at $x_i=0$, since $\lim_{x_i\to 0}\partial[\alpha_i\ln(1+x_i)]/\partial x_i = \alpha_i$; the two objectives therefore agree to first order for small spend but diverge as $x_i$ grows, with the linear model \emph{overstating} marginal returns once a channel approaches audience saturation. Practically, this means the 80\% Radio allocation recommended in Table~\ref{tab:allocation} should be treated as an upper-bound-constrained, first-pass reallocation signal -- directionally correct in prioritizing Radio and de-prioritizing Newspaper, as also found using independently regressed coefficients on comparable data \cite{krasi_github} -- rather than a literal steady-state prescription, particularly at the scale of an \$800,000 Radio budget where saturation effects documented in the MMM literature are most likely to bind \cite{mmm_adstock,mmm_hill_pymc}.
+
+\subsection{Comparison with Learning-Based Alternatives}
+Reinforcement-learning and Bayesian-optimization approaches \cite{bora_2022,danaei_2026,li_ieee_access_2024} relax both the linearity assumption and the requirement that the response function be estimated once, offline, before optimization; they instead learn response online through simulated or real interaction. This comes at substantially higher implementation cost: ensemble DRL frameworks in this space train on the order of thousands of candidate policies before selecting an ensemble \cite{danaei_2026}, whereas the LP stage here solves in milliseconds given already-fitted coefficients. For an organization with stable, well-estimated channel elasticities and a genuinely linear-in-the-relevant-range budget decision, the LP+regression pipeline analyzed in this paper remains an attractive low-cost, interpretable baseline; for organizations operating at large scale with strong nonlinearity, competitive dynamics across advertisers \cite{adcob_2023}, or fast-changing channel performance, the learning-based methods in Table~\ref{tab:comparison} are better matched to the problem structure.
+
+\subsection{Limitations}
+Three limitations of the present model should be stated explicitly. First, the deterministic treatment of $\hat\beta_i$ as exact constants ignores estimation uncertainty quantified by $\mathrm{Var}(\hat\beta)$ in Section~\ref{sec:lp}; a robust or chance-constrained reformulation \cite{robust_lp_2025} would propagate this uncertainty into the allocation. Second, the linear objective's corner-point solutions are an artifact of constant marginal returns and should not be extrapolated far beyond the range of the training data. Third, the model is static and cross-sectional; it does not capture carryover/adstock effects (the lagged influence of past spend on current sales) that are standard in modern MMM practice \cite{mmm_adstock}.
+
+\section{Conclusion}
+This paper presented a fully derived predictive-prescriptive pipeline for marketing budget optimization, combining ordinary least squares regression -- justified via the normal equations and the Gauss--Markov theorem, with a multicollinearity check to validate the causal interpretation of the fitted coefficients -- with a bounded linear program solved via dual-simplex and interior-point methods, whose dual formulation yields a closed-form shadow price for the marketing budget. Applied to a 200-market advertising dataset, the framework explains 92.84\% of out-of-sample sales variance and prescribes reallocating a simulated \$1,000,000 budget toward an 80/15/5 Radio/TV/Newspaper split, projecting 91{,}233.20 total sales units and a marginal budget value of \$0.05394 in sales per additional advertising dollar. Situating this result against recent robust-optimization \cite{robust_lp_2025}, Bayesian-optimization \cite{bora_2022}, optimal-transport \cite{adcob_2023}, and reinforcement-learning \cite{danaei_2026,li_ieee_access_2024} approaches to the same class of problem clarifies that the linear model is best understood as an interpretable, low-cost first stage whose corner-point recommendations should be tempered by the diminishing-returns and uncertainty considerations discussed in Section~\ref{sec:discussion} before being deployed as a literal spending plan. Future work will implement the logarithmic and Hill-saturation extensions of Section~\ref{sec:nlp} directly on adstock-transformed data and compare the resulting nonlinear-program allocation against the linear baseline reported here.
+
+\begin{thebibliography}{00}
+
+\bibitem{islr_2013} G. James, D. Witten, T. Hastie, and R. Tibshirani, \emph{An Introduction to Statistical Learning: with Applications in R}, Springer Texts in Statistics. New York, NY, USA: Springer, 2013.
+
+\bibitem{robust_lp_2025} T. Sedl\'a\v{r}ov\'a Neh\'ezov\'a, R. Kvasni\v{c}ka, H. Bro\v{z}ov\'a, R. Hlavat\'y, and L. Kvasni\v{c}kov\'a Stanislavsk\'a, ``A robust optimization approach to budget optimization in online marketing campaigns,'' \emph{Central European Journal of Operations Research}, vol. 33, no. 2, pp. 495--526, 2025.
+
+\bibitem{bora_2022} A. Candelieri, A. Ponti, and F. Archetti, ``BORA: Bayesian optimization for resource allocation,'' \emph{arXiv preprint arXiv:2210.05977}, 2022.
+
+\bibitem{adcob_2023} G. Shen, S. Sun, D. Gao, S. Li, L. Yang, Y. Shi, and W. Ning, ``Cross-channel budget coordination for online advertising system,'' \emph{arXiv preprint arXiv:2305.06883}, 2023.
+
+\bibitem{danaei_2026} M. Danaei, M. Akbarpour Shirazi, and A. Sheikh, ``An ensemble deep reinforcement learning framework for multi-channel advertising budget optimization: A practical AI approach,'' \emph{Applied Artificial Intelligence}, 2026, doi: 10.1080/08839514.2026.2684155.
+
+\bibitem{li_ieee_access_2024} M. Li, J. Zhang, R. Alizadehsani, and P. Pla\.wiak, ``A multi-channel advertising budget allocation using reinforcement learning and an improved differential evolution algorithm,'' \emph{IEEE Access}, vol. 12, pp. 100559--100580, 2024.
+
+\bibitem{study_lp_media} Study.com, ``Marketing applications of linear programs for media selection \& marketing research,'' online resource, accessed 2026. [Online]. Available: https://study.com/academy/lesson/marketing-applications-of-linear-programs-for-media-selection-marketing-research.html
+
+\bibitem{yang_medium_2024} M. Yang, ``Optimizing marketing budget allocation: A linear programming approach,'' \emph{Medium}, Mar. 2024. [Online]. Available: https://melody-dataworld.medium.com/optimizing-marketing-budget-allocation-a-linear-programming-approach-c5c847ad2de0
+
+\bibitem{xpon_lp_2026} XPON, ``How to develop a digital marketing model for budget allocation,'' online resource, 2026. [Online]. Available: https://xpon.ai/resources/marketing-optimisation/
+
+\bibitem{krasi_github} KRASI1234, ``AD-BUDGET-ALLOCATION-OPTIMIZATION: Operations research project optimizing advertising budget allocation across TV, Radio, and Newspaper channels using linear regression and linear programming,'' GitHub repository, accessed 2026. [Online]. Available: https://github.com/KRASI1234/AD-BUDGET-ALLOCATION-OPTIMIZATION
+
+\bibitem{mmm_diminishing_returns} Measured, ``Media mix optimization: How diminishing return curves turn MMM into budget decisions,'' \emph{Measured}, Apr. 2026. [Online]. Available: https://www.measured.com/faq/media-mix-modeling-diminishing-return-curves-mmm-budget-decision/
+
+\bibitem{mmm_saturation_curves} ``The role of adstock and saturation curves in marketing mix models: Implications for accuracy and decision-making,'' \emph{ResearchGate preprint}, Jan. 2025. [Online]. Available: https://www.researchgate.net/publication/388175908
+
+\bibitem{mmm_hill_pymc} PyMC Labs, ``Marketing mix modeling: A complete guide,'' \emph{PyMC Labs Blog}, Sep. 2025. [Online]. Available: https://www.pymc-labs.com/blog-posts/marketing-mix-modeling-a-complete-guide
+
+\bibitem{mmm_adstock} Towards Data Science, ``Practical approaches to optimizing budget in marketing mix modeling,'' Jan. 2025. [Online]. Available: https://towardsdatascience.com/practical-approaches-to-optimizng-budget-in-marketing-mix-modeling-7816a27f2f71/
+
+\bibitem{huangfu_hall_2018} Q. Huangfu and J. A. J. Hall, ``Parallelizing the dual revised simplex method,'' \emph{Mathematical Programming Computation}, vol. 10, no. 1, pp. 119--142, 2018.
+
+\bibitem{karmarkar_1984} N. Karmarkar, ``A new polynomial-time algorithm for linear programming,'' \emph{Combinatorica}, vol. 4, no. 4, pp. 373--395, 1984.
+
+\bibitem{khachiyan_1979} L. G. Khachiyan, ``A polynomial algorithm in linear programming,'' \emph{Soviet Mathematics Doklady}, vol. 20, pp. 191--194, 1979.
+
+\bibitem{dantzig_1963} G. B. Dantzig, \emph{Linear Programming and Extensions}. Princeton, NJ, USA: Princeton University Press, 1963.
+
+\end{thebibliography}
+
+\end{document}

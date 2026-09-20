@@ -1,7 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowUpRight, Mail } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Mail, Send, Loader2, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea";
+import { Button } from "../components/ui/button";
+import { Label } from "../components/ui/label";
 
 import portrait from "../assets/portrait.jpg";
+import { socialLinks } from "../components/Footer";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -23,64 +30,25 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-const socialLinks = [
-  { label: "LinkedIn", href: "https://linkedin.com/in/aadityakamble" },
-  { label: "GitHub", href: "https://github.com/aadityakamble" },
-  { label: "Twitter", href: "https://twitter.com/aadityakamble" },
-  { label: "Instagram", href: "https://instagram.com/aadityakamble" },
-];
 
 function ContactPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <FloatingShapes />
-      <header className="relative z-20 flex items-center justify-between px-6 py-6 md:px-12 lg:px-16">
-        <Link
-          to="/"
-          className="font-display text-sm font-bold uppercase transition-colors hover:text-primary"
-        >
-          Aaditya Kamble
-        </Link>
-        <nav className="flex items-center gap-6">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Home
-          </Link>
-          <Link
-            to="/about"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            About
-          </Link>
-        </nav>
-      </header>
 
       <main className="relative z-10">
         <section className="px-6 pb-20 pt-10 md:px-12 md:pb-28 md:pt-20 lg:px-16">
           <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
             <div>
-              <p className="mb-5 text-xs font-semibold uppercase tracking-widest text-primary">
-                Contact / Aaditya Kamble
+              <p className="mb-5 font-body text-sm font-semibold uppercase tracking-widest text-primary">
+                AADITYA KAMBLE / CONTACT
               </p>
-              <h1 className="max-w-4xl font-display text-5xl font-bold leading-[0.95] md:text-7xl lg:text-8xl">
-                Let&apos;s make
-                <br />
-                something together.
+              <h1 className="max-w-4xl font-display text-5xl font-bold leading-[0.95] tracking-tight text-foreground md:text-6xl lg:text-7xl">
+                Let&apos;s Connect
               </h1>
               <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                Open to collaborations, freelance projects, and conversations about design,
-                development, or anything in between.
+                Whether you&apos;d like to learn more about my work, verify my professional background, or simply connect for a chat, I&apos;d love to hear from you. Please feel free to reach out using the form below, send me an email, or connect with me across any of my social media channels.
               </p>
-              <a
-                href="mailto:aaditya@example.com"
-                className="mt-8 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                <Mail className="h-4 w-4" />
-                aaditya@example.com
-              </a>
             </div>
             <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:ml-auto">
               <div className="absolute -inset-4 -z-10 rounded-[42%_58%_65%_35%/45%_40%_60%_55%] bg-primary float-slow" />
@@ -91,6 +59,32 @@ function ContactPage() {
                 height={420}
                 className="aspect-square w-full rounded-[32%_68%_58%_42%/48%_42%_58%_52%] object-cover"
               />
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-border px-6 py-16 md:px-12 md:py-24 lg:px-16">
+          <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[1fr_0.8fr] lg:gap-24">
+            <div>
+              <h2 className="font-display text-3xl font-bold md:text-4xl">Send a message</h2>
+              <ContactForm />
+            </div>
+            <div className="lg:pt-2">
+              <h3 className="font-display text-2xl font-bold mb-6">Direct Email</h3>
+              <div className="flex flex-col gap-5">
+                <a href="mailto:aadityakamble18@gmail.com" className="group flex items-center gap-3 text-muted-foreground transition-colors hover:text-primary">
+                  <Mail className="h-5 w-5" />
+                  <span className="font-medium text-foreground group-hover:text-primary transition-colors">aadityakamble18@gmail.com</span>
+                </a>
+                <a href="mailto:aadityakamble18@outlook.com" className="group flex items-center gap-3 text-muted-foreground transition-colors hover:text-primary">
+                  <Mail className="h-5 w-5" />
+                  <span className="font-medium text-foreground group-hover:text-primary transition-colors">aadityakamble18@outlook.com</span>
+                </a>
+                <a href="mailto:b22mt024@alumni.iitj.ac.in" className="group flex items-center gap-3 text-muted-foreground transition-colors hover:text-primary">
+                  <Mail className="h-5 w-5" />
+                  <span className="font-medium text-foreground group-hover:text-primary transition-colors">b22mt024@alumni.iitj.ac.in</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -118,39 +112,6 @@ function ContactPage() {
           </div>
         </section>
       </main>
-
-      <footer className="relative z-10 bg-foreground px-6 py-12 text-background md:px-12 md:py-16 lg:px-16">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center">
-          <div>
-            <p className="font-display text-2xl font-bold">Aaditya Kamble</p>
-            <p className="mt-1 text-sm text-background/70">Product designer &amp; developer</p>
-          </div>
-          <div className="flex flex-col gap-4 md:items-end">
-            <div className="flex flex-wrap gap-6">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-medium text-background/80 transition-colors hover:text-primary"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-            <a
-              href="https://aadityakamble.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm font-medium text-background/80 transition-colors hover:text-primary"
-            >
-              aadityakamble.com
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
@@ -164,3 +125,93 @@ function FloatingShapes() {
     </div>
   );
 }
+
+function ContactForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setIsSuccess(false);
+    
+    const formData = new FormData(e.currentTarget);
+    // TODO: Replace with your actual Web3Forms Access Key
+    try {
+      const response = await fetch("https://formsubmit.co/aakamble018@gmail.com", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsSuccess(true);
+        toast.success("Message sent successfully!", {
+          description: "Thank you for reaching out. I'll get back to you soon.",
+        });
+        (e.target as HTMLFormElement).reset();
+      } else {
+        toast.error("Something went wrong.", {
+          description: data.message || "Please try again later.",
+        });
+        console.error("Form error:", data);
+      }
+    } catch (error) {
+      toast.error("Network error.", {
+        description: "Please check your connection and try again.",
+      });
+      console.error("Submission error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-8 grid gap-6 max-w-xl">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-2">
+          <Label htmlFor="name">Name</Label>
+          <Input id="name" name="name" required placeholder="John Doe" />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" name="email" type="email" required placeholder="john@example.com" />
+        </div>
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="message">Message</Label>
+        <Textarea
+          id="message"
+          name="message"
+          required
+          placeholder="How can I help you?"
+          className="min-h-[120px]"
+        />
+      </div>
+      
+      {/* Subject for email notification */}
+      <input type="hidden" name="subject" value="New Contact Form Submission from Portfolio" />
+      {/* Honeypot to prevent spam */}
+      <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
+
+      <div className="flex items-center gap-4">
+        <Button type="submit" disabled={isSubmitting} className="w-fit">
+          {isSubmitting ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Send className="mr-2 h-4 w-4" />
+          )}
+          {isSubmitting ? "Sending..." : "Send Message"}
+        </Button>
+        {isSuccess && (
+          <p className="flex items-center gap-2 text-sm font-medium text-green-600 dark:text-green-500 animate-in fade-in slide-in-from-left-2 duration-300">
+            <CheckCircle2 className="h-4 w-4" />
+            Message sent!
+          </p>
+        )}
+      </div>
+    </form>
+  );
+}
+

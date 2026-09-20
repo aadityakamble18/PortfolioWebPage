@@ -12,6 +12,22 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as EducationIitJodhpurRouteImport } from './routes/education.iit-jodhpur'
+import { Route as EducationNiralaCollegeRouteImport } from './routes/education.nirala-college'
+import { Route as EducationSandipaniSchoolRouteImport } from './routes/education.sandipani-school'
+import { Route as ExperienceBoltheadsRouteImport } from './routes/experience.boltheads'
+import { Route as ExperienceScoallRouteImport } from './routes/experience.scoall'
+import { Route as ProjectCryoFeaRouteImport } from './routes/project.cryo-fea'
+import { Route as ProjectDieselSimulationRouteImport } from './routes/project.diesel-simulation'
+import { Route as ProjectDigitalRpmGaugeRouteImport } from './routes/project.digital-rpm-gauge'
+import { Route as ProjectExplorePageRouteImport } from './routes/project.explore-page'
+import { Route as ProjectFlightNavigationRouteImport } from './routes/project.flight-navigation'
+import { Route as ProjectMarketingOptimizationRouteImport } from './routes/project.marketing-optimization'
+import { Route as ProjectNexorbitalRouteImport } from './routes/project.nexorbital'
+import { Route as ProjectPvcEvRouteImport } from './routes/project.pvc-ev'
+import { Route as ProjectSmartLuggageRouteImport } from './routes/project.smart-luggage'
+import { Route as ProjectThermalPinnRouteImport } from './routes/project.thermal-pinn'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +44,239 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EducationIitJodhpurRoute = EducationIitJodhpurRouteImport.update({
+  id: '/education/iit-jodhpur',
+  path: '/education/iit-jodhpur',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EducationNiralaCollegeRoute = EducationNiralaCollegeRouteImport.update({
+  id: '/education/nirala-college',
+  path: '/education/nirala-college',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EducationSandipaniSchoolRoute =
+  EducationSandipaniSchoolRouteImport.update({
+    id: '/education/sandipani-school',
+    path: '/education/sandipani-school',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ExperienceBoltheadsRoute = ExperienceBoltheadsRouteImport.update({
+  id: '/experience/boltheads',
+  path: '/experience/boltheads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExperienceScoallRoute = ExperienceScoallRouteImport.update({
+  id: '/experience/scoall',
+  path: '/experience/scoall',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectCryoFeaRoute = ProjectCryoFeaRouteImport.update({
+  id: '/project/cryo-fea',
+  path: '/project/cryo-fea',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectDieselSimulationRoute = ProjectDieselSimulationRouteImport.update({
+  id: '/project/diesel-simulation',
+  path: '/project/diesel-simulation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectDigitalRpmGaugeRoute = ProjectDigitalRpmGaugeRouteImport.update({
+  id: '/project/digital-rpm-gauge',
+  path: '/project/digital-rpm-gauge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectExplorePageRoute = ProjectExplorePageRouteImport.update({
+  id: '/project/explore-page',
+  path: '/project/explore-page',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectFlightNavigationRoute = ProjectFlightNavigationRouteImport.update({
+  id: '/project/flight-navigation',
+  path: '/project/flight-navigation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectMarketingOptimizationRoute =
+  ProjectMarketingOptimizationRouteImport.update({
+    id: '/project/marketing-optimization',
+    path: '/project/marketing-optimization',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ProjectNexorbitalRoute = ProjectNexorbitalRouteImport.update({
+  id: '/project/nexorbital',
+  path: '/project/nexorbital',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectPvcEvRoute = ProjectPvcEvRouteImport.update({
+  id: '/project/pvc-ev',
+  path: '/project/pvc-ev',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectSmartLuggageRoute = ProjectSmartLuggageRouteImport.update({
+  id: '/project/smart-luggage',
+  path: '/project/smart-luggage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectThermalPinnRoute = ProjectThermalPinnRouteImport.update({
+  id: '/project/thermal-pinn',
+  path: '/project/thermal-pinn',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/projects': typeof ProjectsRoute
+  '/education/iit-jodhpur': typeof EducationIitJodhpurRoute
+  '/education/nirala-college': typeof EducationNiralaCollegeRoute
+  '/education/sandipani-school': typeof EducationSandipaniSchoolRoute
+  '/experience/boltheads': typeof ExperienceBoltheadsRoute
+  '/experience/scoall': typeof ExperienceScoallRoute
+  '/project/cryo-fea': typeof ProjectCryoFeaRoute
+  '/project/diesel-simulation': typeof ProjectDieselSimulationRoute
+  '/project/digital-rpm-gauge': typeof ProjectDigitalRpmGaugeRoute
+  '/project/explore-page': typeof ProjectExplorePageRoute
+  '/project/flight-navigation': typeof ProjectFlightNavigationRoute
+  '/project/marketing-optimization': typeof ProjectMarketingOptimizationRoute
+  '/project/nexorbital': typeof ProjectNexorbitalRoute
+  '/project/pvc-ev': typeof ProjectPvcEvRoute
+  '/project/smart-luggage': typeof ProjectSmartLuggageRoute
+  '/project/thermal-pinn': typeof ProjectThermalPinnRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/projects': typeof ProjectsRoute
+  '/education/iit-jodhpur': typeof EducationIitJodhpurRoute
+  '/education/nirala-college': typeof EducationNiralaCollegeRoute
+  '/education/sandipani-school': typeof EducationSandipaniSchoolRoute
+  '/experience/boltheads': typeof ExperienceBoltheadsRoute
+  '/experience/scoall': typeof ExperienceScoallRoute
+  '/project/cryo-fea': typeof ProjectCryoFeaRoute
+  '/project/diesel-simulation': typeof ProjectDieselSimulationRoute
+  '/project/digital-rpm-gauge': typeof ProjectDigitalRpmGaugeRoute
+  '/project/explore-page': typeof ProjectExplorePageRoute
+  '/project/flight-navigation': typeof ProjectFlightNavigationRoute
+  '/project/marketing-optimization': typeof ProjectMarketingOptimizationRoute
+  '/project/nexorbital': typeof ProjectNexorbitalRoute
+  '/project/pvc-ev': typeof ProjectPvcEvRoute
+  '/project/smart-luggage': typeof ProjectSmartLuggageRoute
+  '/project/thermal-pinn': typeof ProjectThermalPinnRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/projects': typeof ProjectsRoute
+  '/education/iit-jodhpur': typeof EducationIitJodhpurRoute
+  '/education/nirala-college': typeof EducationNiralaCollegeRoute
+  '/education/sandipani-school': typeof EducationSandipaniSchoolRoute
+  '/experience/boltheads': typeof ExperienceBoltheadsRoute
+  '/experience/scoall': typeof ExperienceScoallRoute
+  '/project/cryo-fea': typeof ProjectCryoFeaRoute
+  '/project/diesel-simulation': typeof ProjectDieselSimulationRoute
+  '/project/digital-rpm-gauge': typeof ProjectDigitalRpmGaugeRoute
+  '/project/explore-page': typeof ProjectExplorePageRoute
+  '/project/flight-navigation': typeof ProjectFlightNavigationRoute
+  '/project/marketing-optimization': typeof ProjectMarketingOptimizationRoute
+  '/project/nexorbital': typeof ProjectNexorbitalRoute
+  '/project/pvc-ev': typeof ProjectPvcEvRoute
+  '/project/smart-luggage': typeof ProjectSmartLuggageRoute
+  '/project/thermal-pinn': typeof ProjectThermalPinnRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/projects'
+    | '/education/iit-jodhpur'
+    | '/education/nirala-college'
+    | '/education/sandipani-school'
+    | '/experience/boltheads'
+    | '/experience/scoall'
+    | '/project/cryo-fea'
+    | '/project/diesel-simulation'
+    | '/project/digital-rpm-gauge'
+    | '/project/explore-page'
+    | '/project/flight-navigation'
+    | '/project/marketing-optimization'
+    | '/project/nexorbital'
+    | '/project/pvc-ev'
+    | '/project/smart-luggage'
+    | '/project/thermal-pinn'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact'
-  id: '__root__' | '/' | '/about' | '/contact'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/projects'
+    | '/education/iit-jodhpur'
+    | '/education/nirala-college'
+    | '/education/sandipani-school'
+    | '/experience/boltheads'
+    | '/experience/scoall'
+    | '/project/cryo-fea'
+    | '/project/diesel-simulation'
+    | '/project/digital-rpm-gauge'
+    | '/project/explore-page'
+    | '/project/flight-navigation'
+    | '/project/marketing-optimization'
+    | '/project/nexorbital'
+    | '/project/pvc-ev'
+    | '/project/smart-luggage'
+    | '/project/thermal-pinn'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/projects'
+    | '/education/iit-jodhpur'
+    | '/education/nirala-college'
+    | '/education/sandipani-school'
+    | '/experience/boltheads'
+    | '/experience/scoall'
+    | '/project/cryo-fea'
+    | '/project/diesel-simulation'
+    | '/project/digital-rpm-gauge'
+    | '/project/explore-page'
+    | '/project/flight-navigation'
+    | '/project/marketing-optimization'
+    | '/project/nexorbital'
+    | '/project/pvc-ev'
+    | '/project/smart-luggage'
+    | '/project/thermal-pinn'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  ProjectsRoute: typeof ProjectsRoute
+  EducationIitJodhpurRoute: typeof EducationIitJodhpurRoute
+  EducationNiralaCollegeRoute: typeof EducationNiralaCollegeRoute
+  EducationSandipaniSchoolRoute: typeof EducationSandipaniSchoolRoute
+  ExperienceBoltheadsRoute: typeof ExperienceBoltheadsRoute
+  ExperienceScoallRoute: typeof ExperienceScoallRoute
+  ProjectCryoFeaRoute: typeof ProjectCryoFeaRoute
+  ProjectDieselSimulationRoute: typeof ProjectDieselSimulationRoute
+  ProjectDigitalRpmGaugeRoute: typeof ProjectDigitalRpmGaugeRoute
+  ProjectExplorePageRoute: typeof ProjectExplorePageRoute
+  ProjectFlightNavigationRoute: typeof ProjectFlightNavigationRoute
+  ProjectMarketingOptimizationRoute: typeof ProjectMarketingOptimizationRoute
+  ProjectNexorbitalRoute: typeof ProjectNexorbitalRoute
+  ProjectPvcEvRoute: typeof ProjectPvcEvRoute
+  ProjectSmartLuggageRoute: typeof ProjectSmartLuggageRoute
+  ProjectThermalPinnRoute: typeof ProjectThermalPinnRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +302,118 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/education/iit-jodhpur': {
+      id: '/education/iit-jodhpur'
+      path: '/education/iit-jodhpur'
+      fullPath: '/education/iit-jodhpur'
+      preLoaderRoute: typeof EducationIitJodhpurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/education/nirala-college': {
+      id: '/education/nirala-college'
+      path: '/education/nirala-college'
+      fullPath: '/education/nirala-college'
+      preLoaderRoute: typeof EducationNiralaCollegeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/education/sandipani-school': {
+      id: '/education/sandipani-school'
+      path: '/education/sandipani-school'
+      fullPath: '/education/sandipani-school'
+      preLoaderRoute: typeof EducationSandipaniSchoolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/experience/boltheads': {
+      id: '/experience/boltheads'
+      path: '/experience/boltheads'
+      fullPath: '/experience/boltheads'
+      preLoaderRoute: typeof ExperienceBoltheadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/experience/scoall': {
+      id: '/experience/scoall'
+      path: '/experience/scoall'
+      fullPath: '/experience/scoall'
+      preLoaderRoute: typeof ExperienceScoallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/cryo-fea': {
+      id: '/project/cryo-fea'
+      path: '/project/cryo-fea'
+      fullPath: '/project/cryo-fea'
+      preLoaderRoute: typeof ProjectCryoFeaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/diesel-simulation': {
+      id: '/project/diesel-simulation'
+      path: '/project/diesel-simulation'
+      fullPath: '/project/diesel-simulation'
+      preLoaderRoute: typeof ProjectDieselSimulationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/digital-rpm-gauge': {
+      id: '/project/digital-rpm-gauge'
+      path: '/project/digital-rpm-gauge'
+      fullPath: '/project/digital-rpm-gauge'
+      preLoaderRoute: typeof ProjectDigitalRpmGaugeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/explore-page': {
+      id: '/project/explore-page'
+      path: '/project/explore-page'
+      fullPath: '/project/explore-page'
+      preLoaderRoute: typeof ProjectExplorePageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/flight-navigation': {
+      id: '/project/flight-navigation'
+      path: '/project/flight-navigation'
+      fullPath: '/project/flight-navigation'
+      preLoaderRoute: typeof ProjectFlightNavigationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/marketing-optimization': {
+      id: '/project/marketing-optimization'
+      path: '/project/marketing-optimization'
+      fullPath: '/project/marketing-optimization'
+      preLoaderRoute: typeof ProjectMarketingOptimizationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/nexorbital': {
+      id: '/project/nexorbital'
+      path: '/project/nexorbital'
+      fullPath: '/project/nexorbital'
+      preLoaderRoute: typeof ProjectNexorbitalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/pvc-ev': {
+      id: '/project/pvc-ev'
+      path: '/project/pvc-ev'
+      fullPath: '/project/pvc-ev'
+      preLoaderRoute: typeof ProjectPvcEvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/smart-luggage': {
+      id: '/project/smart-luggage'
+      path: '/project/smart-luggage'
+      fullPath: '/project/smart-luggage'
+      preLoaderRoute: typeof ProjectSmartLuggageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/thermal-pinn': {
+      id: '/project/thermal-pinn'
+      path: '/project/thermal-pinn'
+      fullPath: '/project/thermal-pinn'
+      preLoaderRoute: typeof ProjectThermalPinnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +421,22 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  ProjectsRoute: ProjectsRoute,
+  EducationIitJodhpurRoute: EducationIitJodhpurRoute,
+  EducationNiralaCollegeRoute: EducationNiralaCollegeRoute,
+  EducationSandipaniSchoolRoute: EducationSandipaniSchoolRoute,
+  ExperienceBoltheadsRoute: ExperienceBoltheadsRoute,
+  ExperienceScoallRoute: ExperienceScoallRoute,
+  ProjectCryoFeaRoute: ProjectCryoFeaRoute,
+  ProjectDieselSimulationRoute: ProjectDieselSimulationRoute,
+  ProjectDigitalRpmGaugeRoute: ProjectDigitalRpmGaugeRoute,
+  ProjectExplorePageRoute: ProjectExplorePageRoute,
+  ProjectFlightNavigationRoute: ProjectFlightNavigationRoute,
+  ProjectMarketingOptimizationRoute: ProjectMarketingOptimizationRoute,
+  ProjectNexorbitalRoute: ProjectNexorbitalRoute,
+  ProjectPvcEvRoute: ProjectPvcEvRoute,
+  ProjectSmartLuggageRoute: ProjectSmartLuggageRoute,
+  ProjectThermalPinnRoute: ProjectThermalPinnRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
