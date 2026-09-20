@@ -183,6 +183,10 @@ function ContactForm() {
         </div>
       </div>
       <div className="grid gap-2">
+        <Label htmlFor="subject">Subject</Label>
+        <Input id="subject" name="_subject" required placeholder="What is this regarding?" />
+      </div>
+      <div className="grid gap-2">
         <Label htmlFor="message">Message</Label>
         <Textarea
           id="message"
@@ -192,9 +196,6 @@ function ContactForm() {
           className="min-h-[120px]"
         />
       </div>
-      
-      {/* Subject for email notification */}
-      <input type="hidden" name="subject" value="New Contact Form Submission from Portfolio" />
       {/* Honeypot to prevent spam */}
       <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
 
