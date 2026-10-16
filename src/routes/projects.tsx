@@ -1,6 +1,19 @@
+// v1.1 - Added Lab Experiments tab
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Search, SlidersHorizontal, Presentation as PresentationIcon, Eye } from "lucide-react";
+import {
+  ArrowUpRight,
+  Search,
+  SlidersHorizontal,
+  Presentation as PresentationIcon,
+  FlaskConical,
+  Microscope,
+  Sparkles,
+  Cpu,
+  Layers,
+  ArrowRight,
+} from "lucide-react";
 import { useState, useMemo } from "react";
+import { motion } from "framer-motion";
 
 import {
   Select,
@@ -44,13 +57,14 @@ import presentation12Thumbnail from "../assets/Thumbnails/Eutectoid Transformati
 import { Link } from "@tanstack/react-router";
 
 type ProjectsSearch = {
-  tab?: "projects" | "presentations";
+  tab?: "projects" | "presentations" | "experiments";
 };
 
 export const Route = createFileRoute("/projects")({
   validateSearch: (search: Record<string, unknown>): ProjectsSearch => {
+    const tab = search["tab"];
     return {
-      tab: search.tab === "presentations" ? "presentations" : "projects",
+      tab: tab === "presentations" ? "presentations" : tab === "experiments" ? "experiments" : "projects",
     };
   },
   head: () => ({
@@ -334,6 +348,158 @@ const presentations = [
   }
 ];
 
+export const experiments: any[] = [];
+
+function LabExperimentsWIP({ onExploreProjects }: { onExploreProjects: () => void }) {
+  const upcomingExperiments = [
+    {
+      title: "Cu-Zn Phase Evolution & Optical Metallography",
+      tag: "Metallurgy",
+      tagColor: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+      icon: Microscope,
+      stage: "Specimen Etching & Imaging",
+      description:
+        "Microstructural analysis of copper-zinc alpha and beta phases across thermal quenching cycles, with grain boundary characterization.",
+    },
+    {
+      title: "Sol-Gel Synthesis of Perovskite BaTiO₃",
+      tag: "Nanomaterials",
+      tagColor: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+      icon: Sparkles,
+      stage: "Calcination Profiling",
+      description:
+        "Precursor formulation, wet chemical titration, and temperature-dependent dielectric permittivity validation for ferroelectric ceramics.",
+    },
+    {
+      title: "Period-Based Telemetry & Hall Sensor Bench",
+      tag: "Instrumentation",
+      tagColor: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+      icon: Cpu,
+      stage: "Bench Calibration",
+      description:
+        "Noise immunity filtering, period-counting edge detection on hardware timers, and dynamometer calibration for high-RPM pulse streams.",
+    },
+    {
+      title: "Cryostat Thermal Leakage & Boil-Off Profiling",
+      tag: "Cryogenics",
+      tagColor: "bg-purple-500/10 text-purple-500 border-purple-500/20",
+      icon: Layers,
+      stage: "Sensor Array Setup",
+      description:
+        "Experimental multi-point thermocouple logging across MLI vacuum insulation layers to benchmark physical heat ingress against FEA simulations.",
+    },
+  ];
+
+  return (
+    <div className="relative mx-auto max-w-5xl py-4">
+      {/* Decorative ambient gradient backdrop */}
+      <div className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-b from-primary/10 via-primary/5 to-transparent blur-3xl" />
+
+      {/* Hero Container */}
+      <div className="relative overflow-hidden rounded-3xl border border-border/80 bg-card/60 p-8 shadow-xl backdrop-blur-xl sm:p-12 md:p-16">
+        <div className="flex flex-col items-center text-center">
+          {/* Animated Flask Badge */}
+          <motion.div
+            initial={{ scale: 0.85, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="relative mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10 text-primary shadow-inner"
+          >
+            <FlaskConical className="h-10 w-10 text-primary animate-pulse" />
+            <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex h-4 w-4 rounded-full bg-red-500"></span>
+            </span>
+          </motion.div>
+
+          {/* Status Pill */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-muted/60 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
+            Active Research & Experimental Testing
+          </div>
+
+          <h2 className="mt-6 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            Work in Progress
+          </h2>
+
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Physical laboratory trials, optical metallography, phase characterization, and hardware sensor telemetry logs are currently being compiled, verified, and curated for publication.
+          </p>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <button
+              onClick={onExploreProjects}
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-md transition-all hover:bg-primary/90 hover:shadow-lg active:scale-95 cursor-pointer"
+            >
+              Explore Completed Projects
+              <ArrowUpRight className="h-4 w-4" />
+            </button>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-6 py-3 text-sm font-medium text-foreground transition-all hover:border-primary hover:text-primary active:scale-95"
+            >
+              Inquire / Request Lab Data
+            </Link>
+          </div>
+        </div>
+
+        {/* Pipeline Preview */}
+        <div className="mt-14 border-t border-border/60 pt-10">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 className="font-display text-sm font-bold uppercase tracking-wider text-foreground">
+                Upcoming Experimental Notebooks
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Current investigations under documentation & peer verification
+              </p>
+            </div>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-ping" />
+              In Formulation
+            </span>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {upcomingExperiments.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.title}
+                  className="group relative flex flex-col justify-between rounded-2xl border border-border/70 bg-background/50 p-6 transition-all duration-300 hover:border-primary/50 hover:bg-background/80 hover:shadow-md"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="rounded-xl border border-primary/20 bg-primary/10 p-2.5 text-primary">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${item.tagColor}`}>
+                        {item.tag}
+                      </span>
+                    </div>
+
+                    <h4 className="mt-4 font-sans text-base font-semibold text-foreground transition-colors group-hover:text-primary">
+                      {item.title}
+                    </h4>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-5 flex items-center justify-between border-t border-border/50 pt-3 text-[11px] text-muted-foreground">
+                    <span className="font-medium text-muted-foreground">Phase:</span>
+                    <span className="font-semibold text-foreground/80">{item.stage}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PresentationCard({ talk }: { talk: typeof presentations[0] }) {
   return (
     <Dialog>
@@ -440,7 +606,7 @@ function ProjectsPage() {
   const navigate = Route.useNavigate();
   const activeTab = search.tab || "projects";
 
-  const setActiveTab = (tab: "projects" | "presentations") => {
+  const setActiveTab = (tab: "projects" | "presentations" | "experiments") => {
     navigate({ search: { tab }, replace: true });
   };
 
@@ -463,8 +629,8 @@ function ProjectsPage() {
 
     result.sort((a, b) => {
       if (sortBy === "newest" || sortBy === "oldest") {
-        const [monthA, yearA] = a.year.split("/");
-        const [monthB, yearB] = b.year.split("/");
+        const [monthA = "1", yearA = "1970"] = a.year.split("/");
+        const [monthB = "1", yearB = "1970"] = b.year.split("/");
         const dateA = new Date(parseInt(yearA), parseInt(monthA) - 1).getTime();
         const dateB = new Date(parseInt(yearB), parseInt(monthB) - 1).getTime();
         return sortBy === "newest" ? dateB - dateA : dateA - dateB;
@@ -490,8 +656,8 @@ function ProjectsPage() {
 
     result.sort((a, b) => {
       if (sortBy === "newest" || sortBy === "oldest") {
-        const [monthA, yearA] = a.year.split("/");
-        const [monthB, yearB] = b.year.split("/");
+        const [monthA = "1", yearA = "1970"] = a.year.split("/");
+        const [monthB = "1", yearB = "1970"] = b.year.split("/");
         const dateA = new Date(parseInt(yearA), parseInt(monthA) - 1).getTime();
         const dateB = new Date(parseInt(yearB), parseInt(monthB) - 1).getTime();
         return sortBy === "newest" ? dateB - dateA : dateA - dateB;
@@ -514,89 +680,129 @@ function ProjectsPage() {
           <div className="mx-auto max-w-7xl">
             <div className="mb-12 md:mb-16">
               <p className="mb-5 font-body text-sm font-semibold uppercase tracking-widest text-primary">
-                AADITYA KAMBLE / PROJECTS
+                AADITYA KAMBLE / {activeTab === "experiments" ? "LAB EXPERIMENTS" : activeTab === "presentations" ? "PRESENTATIONS" : "PROJECTS"}
               </p>
               <h1 className="max-w-4xl font-display text-5xl font-bold leading-[0.95] tracking-tight text-foreground md:text-6xl lg:text-7xl">
-                Projects
+                {activeTab === "projects" ? "Projects" : activeTab === "presentations" ? "Presentations" : "Lab Experiments"}
               </h1>
               <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                A collection of projects exploring visual identity, editorial design, and digital experiences.
+                {activeTab === "projects"
+                  ? "A collection of engineering projects exploring embedded systems, automotive engineering, data science, and thermal modeling."
+                  : activeTab === "presentations"
+                  ? "Technical slide decks and research presentations exploring materials science, energy storage, and metallurgy."
+                  : "Hands-on physical laboratory experiments, metallurgical investigations, and characterization research."}
               </p>
 
-              <div className="mt-10 flex flex-col gap-4 md:flex-row md:items-center">
-                <div className="relative flex-1 max-w-md">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                    <Search className="h-5 w-5 text-muted-foreground" />
+              {activeTab !== "experiments" && (
+                <div className="mt-10 flex flex-col gap-4 md:flex-row md:items-center">
+                  <div className="relative flex-1 max-w-md">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                      <Search className="h-5 w-5 text-muted-foreground" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="block w-full rounded-full border border-border bg-background py-3 pl-12 pr-4 text-sm font-medium text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="block w-full rounded-full border border-border bg-background py-3 pl-12 pr-4 text-sm font-medium text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
-                </div>
-                
-                <div className="flex flex-wrap items-center gap-3">
-                  <Select value={filterSubject} onValueChange={setFilterSubject}>
-                    <SelectTrigger className="w-[160px] rounded-full">
-                      <SelectValue placeholder="Subject" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {subjects.map((s) => (
-                        <SelectItem key={s} value={s}>{s === "All" ? "All Subjects" : s}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Select value={filterSubject} onValueChange={setFilterSubject}>
+                      <SelectTrigger className="w-[160px] rounded-full">
+                        <SelectValue placeholder="Subject" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {subjects.map((s) => (
+                          <SelectItem key={s} value={s}>{s === "All" ? "All Subjects" : s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
 
-                  <Select value={filterTopic} onValueChange={setFilterTopic}>
-                    <SelectTrigger className="w-[160px] rounded-full">
-                      <SelectValue placeholder="Topic" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {topics.map((t) => (
-                        <SelectItem key={t} value={t}>{t === "All" ? "All Topics" : t}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    <Select value={filterTopic} onValueChange={setFilterTopic}>
+                      <SelectTrigger className="w-[160px] rounded-full">
+                        <SelectValue placeholder="Topic" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {topics.map((t) => (
+                          <SelectItem key={t} value={t}>{t === "All" ? "All Topics" : t}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
 
-                  <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-[160px] rounded-full">
-                      <div className="flex items-center gap-2">
-                        <SlidersHorizontal className="w-4 h-4" />
-                        <SelectValue placeholder="Sort by" />
-                      </div>
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="newest">Newest First</SelectItem>
-                      <SelectItem value="oldest">Oldest First</SelectItem>
-                      <SelectItem value="a-z">Title (A-Z)</SelectItem>
-                      <SelectItem value="z-a">Title (Z-A)</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    <Select value={sortBy} onValueChange={setSortBy}>
+                      <SelectTrigger className="w-[160px] rounded-full">
+                        <div className="flex items-center gap-2">
+                          <SlidersHorizontal className="w-4 h-4" />
+                          <SelectValue placeholder="Sort by" />
+                        </div>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="newest">Newest First</SelectItem>
+                        <SelectItem value="oldest">Oldest First</SelectItem>
+                        <SelectItem value="a-z">Title (A-Z)</SelectItem>
+                        <SelectItem value="z-a">Title (Z-A)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="mt-12 flex items-center gap-8 border-b border-border pb-4">
                 <button
                   onClick={() => setActiveTab("projects")}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                  className={`relative text-sm font-medium transition-colors hover:text-primary ${
                     activeTab === "projects"
-                      ? "text-foreground underline decoration-red-500 decoration-2 underline-offset-8"
+                      ? "text-foreground"
                       : "text-muted-foreground"
                   }`}
                 >
                   Projects
+                  {activeTab === "projects" && (
+                    <motion.div
+                      layoutId="projects-tab-underline"
+                      className="absolute left-0 right-0 -bottom-[17px] h-[2px] bg-red-500"
+                      initial={false}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
                 </button>
                 <button
                   onClick={() => setActiveTab("presentations")}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                  className={`relative text-sm font-medium transition-colors hover:text-primary ${
                     activeTab === "presentations"
-                      ? "text-foreground underline decoration-red-500 decoration-2 underline-offset-8"
+                      ? "text-foreground"
                       : "text-muted-foreground"
                   }`}
                 >
                   Presentations
+                  {activeTab === "presentations" && (
+                    <motion.div
+                      layoutId="projects-tab-underline"
+                      className="absolute left-0 right-0 -bottom-[17px] h-[2px] bg-red-500"
+                      initial={false}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                </button>
+                <button
+                  onClick={() => setActiveTab("experiments")}
+                  className={`relative text-sm font-medium transition-colors hover:text-primary ${
+                    activeTab === "experiments"
+                      ? "text-foreground"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  Lab Experiments
+                  {activeTab === "experiments" && (
+                    <motion.div
+                      layoutId="projects-tab-underline"
+                      className="absolute left-0 right-0 -bottom-[17px] h-[2px] bg-red-500"
+                      initial={false}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
                 </button>
               </div>
             </div>
@@ -658,7 +864,7 @@ function ProjectsPage() {
                 </div>
               )}
             </div>
-            ) : (
+            ) : activeTab === "presentations" ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredPresentations.length > 0 ? (
                   filteredPresentations.map((presentation) => (
@@ -670,6 +876,8 @@ function ProjectsPage() {
                   </div>
                 )}
               </div>
+            ) : (
+              <LabExperimentsWIP onExploreProjects={() => setActiveTab("projects")} />
             )}
           </div>
         </section>
