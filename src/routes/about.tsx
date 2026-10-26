@@ -4,6 +4,8 @@ import { ArrowLeft, ArrowUpRight, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import portrait from "../assets/portrait.jpg";
+const scoallLogo = "https://ik.imagekit.io/aadityakamble18/Portfolio_Page/Logos/ScoallAsset%201.png?tr=f-auto";
+const boltheadsLogo = "https://ik.imagekit.io/aadityakamble18/Portfolio_Page/Logos/Automobile.jpg?tr=w-400,q-90,f-auto";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -136,8 +138,8 @@ function AboutPage() {
             <div className="space-y-8">
               {/* ScoAll Experience */}
               <Link to="/experience/scoall" className="group flex gap-4 md:gap-6 transition-colors">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-background overflow-hidden border border-border">
-                  <img src="https://media.licdn.com/dms/image/v2/D560BAQEs3AIVfE2wQA/company-logo_100_100/B56Zy4d_H.KcAU-/0/1772621394911/scoall_logo?e=1790812800&v=beta&t=2kIPddZ4U21SFWlB_kwOi-5HOmvuPkz0OxSsleKyPbg" alt="ScoAll Logo" className="h-full w-full object-cover" />
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-background overflow-hidden border border-border p-1.5">
+                  <img src={scoallLogo} alt="ScoAll Logo" className="h-full w-full object-contain" loading="eager" decoding="async" />
                 </div>
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between w-full gap-2">
                   <div>
@@ -150,8 +152,8 @@ function AboutPage() {
 
               {/* Boltheads Experience */}
               <Link to="/experience/boltheads" className="group flex gap-4 md:gap-6 transition-colors">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-background overflow-hidden">
-                  <img src="https://media.licdn.com/dms/image/v2/D560BAQEsFRUFYkzDpg/company-logo_200_200/B56Za0Kv8XGgAI-/0/1746779439678/automobiles_iitj_logo?e=1790812800&v=beta&t=B4SeDQFeK5_mai2LOCJWyWO8Y1MuJexrPKl02Dd6BKw" alt="Boltheads Logo" className="h-full w-full object-cover" />
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-white overflow-hidden">
+                  <img src={boltheadsLogo} alt="Boltheads Logo" className="h-full w-full object-cover" loading="eager" decoding="async" />
                 </div>
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between w-full gap-2">
                   <div>

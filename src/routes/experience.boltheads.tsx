@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import boltheadsImg from "../assets/Boltheads/boltheads.jpeg";
+const boltheadsLogo = "https://ik.imagekit.io/aadityakamble18/Portfolio_Page/Logos/Automobile.jpg?tr=w-400,q-90,f-auto";
 import { ProtectedImage } from "../components/ProtectedImage";
 
 export const Route = createFileRoute("/experience/boltheads")({
@@ -35,8 +36,8 @@ function BoltheadsExperiencePage() {
               Coordinator
             </p>
             <div className="flex items-center gap-6">
-              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-background overflow-hidden border border-border">
-                <img src="https://media.licdn.com/dms/image/v2/D560BAQEsFRUFYkzDpg/company-logo_200_200/B56Za0Kv8XGgAI-/0/1746779439678/automobiles_iitj_logo?e=1790812800&v=beta&t=B4SeDQFeK5_mai2LOCJWyWO8Y1MuJexrPKl02Dd6BKw" alt="Boltheads Logo" className="h-full w-full object-cover" />
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-white overflow-hidden border border-border">
+                <img src={boltheadsLogo} alt="Boltheads Logo" className="h-full w-full object-cover" loading="eager" decoding="async" />
               </div>
               <h1 className="max-w-4xl font-display text-5xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl lg:text-7xl">
                 Boltheads

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { ProtectedImage } from "../components/ProtectedImage";
+const scoallLogo = "https://ik.imagekit.io/aadityakamble18/Portfolio_Page/Logos/ScoallAsset%201.png?tr=f-auto";
 
 export const Route = createFileRoute("/experience/scoall")({
   head: () => ({
@@ -34,8 +35,8 @@ function ScoallExperiencePage() {
               Product & UI Designer
             </p>
             <div className="flex items-center gap-6">
-              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-background overflow-hidden border border-border">
-                <img src="https://media.licdn.com/dms/image/v2/D560BAQEs3AIVfE2wQA/company-logo_100_100/B56Zy4d_H.KcAU-/0/1772621394911/scoall_logo?e=1790812800&v=beta&t=2kIPddZ4U21SFWlB_kwOi-5HOmvuPkz0OxSsleKyPbg" alt="ScoAll Logo" className="h-full w-full object-cover" />
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-background overflow-hidden border border-border p-2.5">
+                <img src={scoallLogo} alt="ScoAll Logo" className="h-full w-full object-contain" loading="eager" decoding="async" />
               </div>
               <h1 className="max-w-4xl font-display text-5xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl lg:text-7xl">
                 ScoAll

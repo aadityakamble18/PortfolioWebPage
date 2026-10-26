@@ -104,6 +104,8 @@ export function ProtectedImage({ src, alt }: ProtectedImageProps) {
           alt={alt} 
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 select-none pointer-events-none"
           draggable={false}
+          loading="lazy"
+          decoding="async"
           onContextMenu={(e) => e.preventDefault()}
         />
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20 pointer-events-none">

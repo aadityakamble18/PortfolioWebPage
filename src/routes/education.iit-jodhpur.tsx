@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import degreeCert from "../assets/Btech/Degreecertificate.jpg";
 import boltheadsImg from "../assets/Btech/boltheads.jpeg";
 import { ProtectedImage } from "../components/ProtectedImage";
+
+const degreeCert = "https://ik.imagekit.io/aadityakamble18/Portfolio_Page/IIT_Jodhpur/Degreecertificate.jpg?tr=w-1400,q-82,f-auto";
+const convoPhoto = "https://ik.imagekit.io/aadityakamble18/Portfolio_Page/IIT_Jodhpur/2A9A1202.jpeg?tr=w-1600,q-85,f-auto";
 
 export const Route = createFileRoute("/education/iit-jodhpur")({
   head: () => ({
@@ -157,9 +159,11 @@ function EducationPage() {
                   <div className="absolute -inset-4 -z-10 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] bg-primary opacity-90 float-slow" />
                   <div className="absolute -right-8 -top-8 -z-10 h-24 w-24 rounded-full bg-red-muted opacity-60 float-medium" />
                   <img
-                    src="https://events.iitj.ac.in/convo/2A9A1202.JPG"
-                    alt="IIT Jodhpur Campus"
+                    src={convoPhoto}
+                    alt="IIT Jodhpur Convocation Degree Award"
                     className="relative z-10 aspect-[3/2] w-full max-w-md rounded-[30%_70%_60%_40%/50%_40%_60%_50%] object-cover shadow-2xl"
+                    loading="eager"
+                    decoding="async"
                   />
                 </div>
               </div>
@@ -225,8 +229,8 @@ function EducationPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <ProtectedImage src={degreeCert} alt="BTech Degree Certificate" />
-              <ProtectedImage src="https://events.iitj.ac.in/convo/2A9A1202.JPG" alt="BTech Degree Certificate" />
-              <ProtectedImage src={boltheadsImg} alt="Boltheads" />
+              <ProtectedImage src={convoPhoto} alt="IIT Jodhpur Convocation Degree Award" />
+              <ProtectedImage src={boltheadsImg} alt="Boltheads Certificate of Appreciation" />
             </div>
           </div>
         </section>
