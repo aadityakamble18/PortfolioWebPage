@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Github, FileText, Download, ArrowUpRight, Presentation } from "lucide-react";
 import { useEffect } from "react";
 import { ProtectedImage } from "../components/ProtectedImage";
+import { ViewReportButton } from "../components/ViewReportButton";
 
 import Figure1 from '../assets/Flight Route Navigation/figure1_network_topology.png';
 import Figure2 from '../assets/Flight Route Navigation/figure2_AER_KZN.png';
@@ -10,9 +11,14 @@ import Figure4 from '../assets/Flight Route Navigation/figure4_GKA_DME.png';
 import Figure5 from '../assets/Flight Route Navigation/figure5_averages.png';
 import Visualization from '../assets/Flight Route Navigation/visualization.svg';
 import PresentationPDF from '../assets/Flight Route Navigation/DSAIdeathon.pdf';
-import ReportPDF from '../assets/Flight Route Navigation/Comparative Analysis of Shortest Path Algorithms for Air Transportation Networks.pdf';
 
 export const Route = createFileRoute("/project/flight-navigation")({
+  head: () => ({
+    meta: [
+      { title: "Flight Route Navigation — Aaditya Kamble" },
+      { property: "og:title", content: "Flight Route Navigation — Aaditya Kamble" },
+    ],
+  }),
   component: FlightNavigationProjectPage,
 });
 
@@ -125,15 +131,11 @@ function FlightNavigationProjectPage() {
                   Download PPT
                   <Download className="h-4 w-4 ml-1 opacity-80" />
                 </a>
-                <a
-                  href={ReportPDF}
-                  download="Report.pdf"
-                  className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-all hover:bg-accent"
-                >
-                  <FileText className="h-4 w-4" />
-                  Download Report
-                  <Download className="h-4 w-4 ml-1 opacity-80" />
-                </a>
+                <ViewReportButton
+                  reportUrl="/reports/Comparative%20Analysis%20of%20Shortest%20Path%20Algorithms%20for%20Air%20Transportation%20Networks.pdf"
+                  projectTitle="Flight Route Navigation using Graphs Algorithms"
+                  presentationUrl="https://www.canva.com/design/DAGFIeqvu74/AHUl79FB5VR5YY5hW2LvHA/view"
+                />
               </div>
             </section>
 

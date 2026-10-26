@@ -1,8 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Github, Presentation, FileText, Download, ArrowUpRight } from "lucide-react";
+import { Github, Presentation, FileText, ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
 
 export const Route = createFileRoute("/project/smart-luggage")({
+  head: () => ({
+    meta: [
+      { title: "Biometric Smart Luggage — Aaditya Kamble" },
+      { property: "og:title", content: "Biometric Smart Luggage — Aaditya Kamble" },
+    ],
+  }),
   component: SmartLuggageProjectPage,
 });
 

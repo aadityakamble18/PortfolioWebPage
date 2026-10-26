@@ -4,6 +4,12 @@ import xiiCert from "../assets/XII/XI.jpeg";
 import { ProtectedImage } from "../components/ProtectedImage";
 
 export const Route = createFileRoute("/education/nirala-college")({
+  head: () => ({
+    meta: [
+      { title: "Nirala College — Aaditya Kamble" },
+      { property: "og:title", content: "Nirala College — Aaditya Kamble" },
+    ],
+  }),
   component: EducationPage,
 });
 

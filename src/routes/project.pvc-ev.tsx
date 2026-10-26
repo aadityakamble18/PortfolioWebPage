@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Github, Presentation, FileText, Download, ArrowUpRight } from "lucide-react";
+import { Github, Presentation, FileText, ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
 import { ProtectedImage } from "../components/ProtectedImage";
+import { ViewReportButton } from "../components/ViewReportButton";
 
 import fig1 from "../assets/PVC_EV/figure_1.png";
 import fig2 from "../assets/PVC_EV/figure_2.png";
@@ -23,6 +24,12 @@ import fig17 from "../assets/PVC_EV/figure_17.png";
 import fig18 from "../assets/PVC_EV/figure_18.png";
 
 export const Route = createFileRoute("/project/pvc-ev")({
+  head: () => ({
+    meta: [
+      { title: "Electric PVC Go-Kart — Aaditya Kamble" },
+      { property: "og:title", content: "Electric PVC Go-Kart — Aaditya Kamble" },
+    ],
+  }),
   component: PvcEvProjectPage,
 });
 
@@ -104,21 +111,20 @@ function PvcEvProjectPage() {
                   <ArrowUpRight className="h-4 w-4 ml-1 opacity-80" />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.canva.com/design/DAG4riOgvKg/LZEsa5mLUcES3atWoM6Vsw/view"
+                  target="_blank"
+                  rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-all hover:bg-accent"
                 >
                   <Presentation className="h-4 w-4" />
-                  Download Presentation
-                  <Download className="h-4 w-4 ml-1 opacity-80" />
+                  View Presentation
+                  <ArrowUpRight className="h-4 w-4 ml-1 opacity-80" />
                 </a>
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-all hover:bg-accent"
-                >
-                  <FileText className="h-4 w-4" />
-                  Download Report
-                  <Download className="h-4 w-4 ml-1 opacity-80" />
-                </a>
+                <ViewReportButton
+                  reportUrl="/reports/Design_Modeling_Control_Electric_GoKart_TCS_BMS.pdf"
+                  projectTitle="Electric PVC Go-Kart with TCS & BMS"
+                  presentationUrl="https://www.canva.com/design/DAG4riOgvKg/LZEsa5mLUcES3atWoM6Vsw/view"
+                />
               </div>
             </section>
 

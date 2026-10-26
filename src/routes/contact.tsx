@@ -13,12 +13,12 @@ import { socialLinks } from "../components/Footer";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Aaditya Kamble — Portfolio" },
+      { title: "Contact — Aaditya Kamble" },
       {
         name: "description",
         content: "Get in touch with Aaditya Kamble for collaborations, opportunities, or just to say hello.",
       },
-      { property: "og:title", content: "Contact Aaditya Kamble — Portfolio" },
+      { property: "og:title", content: "Contact — Aaditya Kamble" },
       {
         property: "og:description",
         content: "Get in touch with Aaditya Kamble for collaborations, opportunities, or just to say hello.",

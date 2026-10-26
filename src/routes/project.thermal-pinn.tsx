@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Github, Presentation, FileText, Download, ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
 import { ProtectedImage } from "../components/ProtectedImage";
+import { ViewReportButton } from "../components/ViewReportButton";
 
 import fig1 from "../assets/PINN_Project/figure_1.png";
 import fig2 from "../assets/PINN_Project/figure_2.png";
@@ -12,6 +13,12 @@ import fig6 from "../assets/PINN_Project/figure_6.png";
 import fig7 from "../assets/PINN_Project/figure_7.png";
 
 export const Route = createFileRoute("/project/thermal-pinn")({
+  head: () => ({
+    meta: [
+      { title: "Thermal PINN — Aaditya Kamble" },
+      { property: "og:title", content: "Thermal PINN — Aaditya Kamble" },
+    ],
+  }),
   component: ThermalPinnProjectPage,
 });
 
@@ -113,21 +120,20 @@ function ThermalPinnProjectPage() {
                   <ArrowUpRight className="h-4 w-4 ml-1 opacity-80" />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.canva.com/design/DAGkc_SRKaM/vaZ9vXN68PH2sZsVD3PE1A/view"
+                  target="_blank"
+                  rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-all hover:bg-accent"
                 >
                   <Presentation className="h-4 w-4" />
-                  Download Presentation
-                  <Download className="h-4 w-4 ml-1 opacity-80" />
+                  View Presentation
+                  <ArrowUpRight className="h-4 w-4 ml-1 opacity-80" />
                 </a>
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-all hover:bg-accent"
-                >
-                  <FileText className="h-4 w-4" />
-                  Download Report
-                  <Download className="h-4 w-4 ml-1 opacity-80" />
-                </a>
+                <ViewReportButton
+                  reportUrl="/reports/Estimating_Thermal_Properties_via_the_Inverse_Method_using_Physics_Informed_Neural_Networks.pdf"
+                  projectTitle="Solving Heat Equation Using PINNs"
+                  presentationUrl="https://www.canva.com/design/DAGkc_SRKaM/vaZ9vXN68PH2sZsVD3PE1A/view"
+                />
               </div>
             </section>
 

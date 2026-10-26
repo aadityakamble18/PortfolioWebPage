@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="ak-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="100%" stop-color="#DC2626" />
+    </linearGradient>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181B" />
+      <stop offset="100%" stop-color="#09090B" />
+    </linearGradient>
+  </defs>
+  <!-- Background rounded squircle -->
+  <rect width="64" height="64" rx="16" fill="url(#bg-grad)" stroke="#27272A" stroke-width="2"/>
+  <!-- Letter A (Clean White) -->
+  <path d="M10 48L20.5 16H25.5L36 48H30.4L28.1 40.5H17.9L15.6 48H10ZM19.4 35.5H26.6L23 24.2L19.4 35.5Z" fill="#F8FAFC"/>
+  <!-- Letter K (Vibrant Red) -->
+  <path d="M33 16H38.5V28.5L46 16H53L43.5 30.5L54 48H46.8L38.5 33.8V48H33V16Z" fill="url(#ak-grad)"/>
+</svg>

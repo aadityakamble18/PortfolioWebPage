@@ -11,6 +11,7 @@ import {
   Cpu,
   Layers,
   ArrowRight,
+  FileText,
 } from "lucide-react";
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
@@ -31,6 +32,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ViewReportButton } from "@/components/ViewReportButton";
 
 import nexorbitalThumbnail from "../assets/NexOrbital/nexorbital_rocket_flight.png";
 import projectTwo from "../assets/project-2.jpg";
@@ -94,6 +96,8 @@ export const projects = [
     image: tachometerThumbnail,
     year: "05/2026",
     link: "/project/digital-rpm-gauge",
+    report: "/reports/Digital_Tachometer.pdf",
+    presentation: "https://www.canva.com/design/DAHVhn25Vvk/bhHFDJa_2i82yl195L9CRw/view",
     subject: "Electronics",
     topic: "Embedded Systems",
   },
@@ -104,6 +108,8 @@ export const projects = [
     image: pvcFig1,
     year: "12/2025",
     link: "/project/pvc-ev",
+    report: "/reports/Design_Modeling_Control_Electric_GoKart_TCS_BMS.pdf",
+    presentation: "https://www.canva.com/design/DAG4riOgvKg/LZEsa5mLUcES3atWoM6Vsw/view",
     subject: "Automotive",
     topic: "Electric Vehicles",
   },
@@ -114,6 +120,8 @@ export const projects = [
     image: marketingThumbnail,
     year: "11/2025",
     link: "/project/marketing-optimization",
+    report: "/reports/Marketing%20Campaign%20Optimization.pdf",
+    presentation: "https://www.canva.com/design/DAHVXFwvvkE/bx2qUFtpUO9A4sUX1ekGRw/view",
     subject: "Data Science",
     topic: "Optimization",
   },
@@ -124,6 +132,8 @@ export const projects = [
     image: fig2,
     year: "04/2025",
     link: "/project/thermal-pinn",
+    report: "/reports/Estimating_Thermal_Properties_via_the_Inverse_Method_using_Physics_Informed_Neural_Networks.pdf",
+    presentation: "https://www.canva.com/design/DAGkc_SRKaM/vaZ9vXN68PH2sZsVD3PE1A/view",
     subject: "Machine Learning",
     topic: "Physics",
   },
@@ -134,6 +144,7 @@ export const projects = [
     image: nexorbitalThumbnail,
     year: "12/2024",
     link: "/project/nexorbital",
+    report: "/reports/Design%20and%20Sizing%20of%20the%20NexOrbital%20Launch%20Platform.pdf",
     subject: "Aerospace",
     topic: "Mechanical Design",
   },
@@ -144,6 +155,8 @@ export const projects = [
     image: dieselSimulationThumbnail,
     year: "04/2024",
     link: "/project/diesel-simulation",
+    report: "/reports/Computational%20Analysis%20of%20Diesel_Biodiesel%20Blends%20in%20a%20Compression%20Ignition%20Engine%20Using%20ANSYS%20Forte.pdf",
+    presentation: "https://www.canva.com/design/DAHVeBnFlis/Y4P77Kq68lTRTm9_SM7T6g/view",
     subject: "Automotive",
     topic: "Simulation",
   },
@@ -154,6 +167,8 @@ export const projects = [
     image: flightNavigationThumbnail,
     year: "04/2024",
     link: "/project/flight-navigation",
+    report: "/reports/Comparative%20Analysis%20of%20Shortest%20Path%20Algorithms%20for%20Air%20Transportation%20Networks.pdf",
+    presentation: "https://www.canva.com/design/DAGFIeqvu74/AHUl79FB5VR5YY5hW2LvHA/view",
     subject: "Computer Science",
     topic: "Algorithms",
   },
@@ -164,6 +179,8 @@ export const projects = [
     image: cryoThumbnail,
     year: "12/2023",
     link: "/project/cryo-fea",
+    report: "/reports/h2_Storage_V.pdf",
+    presentation: "https://www.canva.com/design/DAFy-I6sZhg/gVvkz40SeUjcatW3idHklA/view",
     subject: "Materials Science",
     topic: "FEA",
   },
@@ -174,6 +191,8 @@ export const projects = [
     image: epdThumbnail,
     year: "11/2023",
     link: "/project/explore-page",
+    report: "/reports/Analysis%20of%20Factors%20Influencing%20Content%20Discoverability%20on%20Instagram%20Using%20Machine%20Learning.pdf",
+    presentation: "https://www.canva.com/design/DAHVXPsqIEk/77nJLkc_I_Y2t0JPmzq_gA/view",
     subject: "Data Science",
     topic: "Machine Learning",
   },
@@ -184,6 +203,7 @@ export const projects = [
     image: projectTwo,
     year: "06/2023",
     link: "/project/smart-luggage",
+    presentation: "https://www.canva.com/design/DAHVhrYfxzY/a_GB6sGGPsiZLk7UNeYu0Q/view",
     subject: "Electronics",
     topic: "IoT & Product Design",
   },
@@ -848,13 +868,23 @@ function ProjectsPage() {
                       <p className="mb-8 text-base leading-relaxed text-muted-foreground md:text-lg">
                         {project.description}
                       </p>
-                      <Link
-                        to={project.link || "#"}
-                        className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                      >
-                        View Project
-                        <ArrowUpRight className="h-4 w-4" />
-                      </Link>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <Link
+                          to={project.link || "#"}
+                          className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                        >
+                          View Project
+                          <ArrowUpRight className="h-4 w-4" />
+                        </Link>
+                        {project.report && (
+                          <ViewReportButton
+                            reportUrl={project.report}
+                            projectTitle={project.title}
+                            presentationUrl={project.presentation}
+                            className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-5 py-3 text-sm font-medium text-foreground transition-all hover:bg-accent hover:border-primary/50 cursor-pointer"
+                          />
+                        )}
+                      </div>
                     </div>
                   </article>
                 ))

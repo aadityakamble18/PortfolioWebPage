@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Github, Presentation, FileText, Download, ArrowUpRight } from "lucide-react";
+import { Github, Presentation, FileText, ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
 import { ProtectedImage } from "../components/ProtectedImage";
+import { ViewReportButton } from "../components/ViewReportButton";
 
 import fig1 from "../assets/Diesel engine simulation/engine_geometry.png";
 import fig2 from "../assets/Diesel engine simulation/mesh.png";
@@ -14,6 +15,12 @@ import fig8 from "../assets/Diesel engine simulation/chemistry.png";
 import fig9 from "../assets/Diesel engine simulation/species.png";
 
 export const Route = createFileRoute("/project/diesel-simulation")({
+  head: () => ({
+    meta: [
+      { title: "Diesel Engine Simulation — Aaditya Kamble" },
+      { property: "og:title", content: "Diesel Engine Simulation — Aaditya Kamble" },
+    ],
+  }),
   component: DieselSimulationProjectPage,
 });
 
@@ -90,16 +97,12 @@ function DieselSimulationProjectPage() {
               </div>
 
               <div className="mt-10 flex flex-wrap justify-center gap-3">
-                <a
-                  href="/src/assets/Diesel engine simulation/Computational Analysis of Diesel_Biodiesel Blends in a Compression Ignition Engine Using ANSYS Forte.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md bg-[#CC0B24] px-4 py-2 text-sm font-medium text-white transition-all hover:bg-[#A8091D]"
-                >
-                  <FileText className="h-4 w-4" />
-                  View Report
-                  <ArrowUpRight className="h-4 w-4 ml-1 opacity-80" />
-                </a>
+                <ViewReportButton
+                  reportUrl="/reports/Computational%20Analysis%20of%20Diesel_Biodiesel%20Blends%20in%20a%20Compression%20Ignition%20Engine%20Using%20ANSYS%20Forte.pdf"
+                  projectTitle="Diesel Engine Simulation with diesel-biodiesel blends in ANSYS Forte"
+                  presentationUrl="https://www.canva.com/design/DAHVeBnFlis/Y4P77Kq68lTRTm9_SM7T6g/view"
+                  className="inline-flex items-center gap-2 rounded-md bg-[#CC0B24] px-4 py-2 text-sm font-medium text-white transition-all hover:bg-[#A8091D] cursor-pointer"
+                />
 
                 <a
                   href="https://www.canva.com/design/DAHVeBnFlis/Y4P77Kq68lTRTm9_SM7T6g/view"

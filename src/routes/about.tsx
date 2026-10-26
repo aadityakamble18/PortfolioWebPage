@@ -8,12 +8,12 @@ import portrait from "../assets/portrait.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Aaditya Kamble — Portfolio" },
+      { title: "About — Aaditya Kamble" },
       {
         name: "description",
         content: "Learn about Aaditya Kamble, his background, technical work, and creative pursuits.",
       },
-      { property: "og:title", content: "About Aaditya Kamble — Portfolio" },
+      { property: "og:title", content: "About — Aaditya Kamble" },
       {
         property: "og:description",
         content: "Learn about Aaditya Kamble, his background, technical work, and creative pursuits.",

@@ -4,6 +4,12 @@ import boltheadsImg from "../assets/Boltheads/boltheads.jpeg";
 import { ProtectedImage } from "../components/ProtectedImage";
 
 export const Route = createFileRoute("/experience/boltheads")({
+  head: () => ({
+    meta: [
+      { title: "Boltheads Motorsport — Aaditya Kamble" },
+      { property: "og:title", content: "Boltheads Motorsport — Aaditya Kamble" },
+    ],
+  }),
   component: BoltheadsExperiencePage,
 });
 

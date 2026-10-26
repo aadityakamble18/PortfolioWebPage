@@ -1,12 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Github, FileText, Download, ArrowUpRight, Presentation } from "lucide-react";
+import { Github, FileText, ArrowUpRight, Presentation } from "lucide-react";
 import { useEffect } from "react";
+import { ViewReportButton } from "../components/ViewReportButton";
 
 import img1 from "../assets/Marketingf campaign optimization/Screenshot 2026-09-17 173610.png";
 import img2 from "../assets/Marketingf campaign optimization/Screenshot 2026-09-17 173626.png";
 import img3 from "../assets/Marketingf campaign optimization/Screenshot 2026-09-17 173645.png";
 
 export const Route = createFileRoute("/project/marketing-optimization")({
+  head: () => ({
+    meta: [
+      { title: "Marketing Optimization — Aaditya Kamble" },
+      { property: "og:title", content: "Marketing Optimization — Aaditya Kamble" },
+    ],
+  }),
   component: MarketingOptimizationProjectPage,
 });
 
@@ -101,16 +108,11 @@ function MarketingOptimizationProjectPage() {
                   View Presentation
                   <ArrowUpRight className="h-4 w-4 ml-1 opacity-80" />
                 </a>
-                <a
-                  href="/src/assets/Marketingf campaign optimization/main.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-all hover:bg-accent"
-                >
-                  <FileText className="h-4 w-4" />
-                  Download Report
-                  <Download className="h-4 w-4 ml-1 opacity-80" />
-                </a>
+                <ViewReportButton
+                  reportUrl="/reports/Marketing%20Campaign%20Optimization.pdf"
+                  projectTitle="Marketing Campaign Optimization Using Linear Programming"
+                  presentationUrl="https://www.canva.com/design/DAHVXFwvvkE/bx2qUFtpUO9A4sUX1ekGRw/view"
+                />
               </div>
             </section>
 

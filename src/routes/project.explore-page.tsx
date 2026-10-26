@@ -1,8 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Github, Presentation, FileText, Download, ArrowUpRight } from "lucide-react";
+import { Github, Presentation, FileText, ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
+import { ViewReportButton } from "../components/ViewReportButton";
 
 export const Route = createFileRoute("/project/explore-page")({
+  head: () => ({
+    meta: [
+      { title: "Instagram Discoverability — Aaditya Kamble" },
+      { property: "og:title", content: "Instagram Discoverability — Aaditya Kamble" },
+    ],
+  }),
   component: ExplorePageProjectPage,
 });
 
@@ -108,16 +115,11 @@ function ExplorePageProjectPage() {
                   View Presentation
                   <ArrowUpRight className="h-4 w-4 ml-1 opacity-80" />
                 </a>
-                <a
-                  href="/src/assets/Explore Page Discoverability/Analysis of Factors Influencing Content Discoverability on Instagram Using Machine Learning.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-all hover:bg-accent"
-                >
-                  <FileText className="h-4 w-4" />
-                  Download Paper
-                  <Download className="h-4 w-4 ml-1 opacity-80" />
-                </a>
+                <ViewReportButton
+                  reportUrl="/reports/Analysis%20of%20Factors%20Influencing%20Content%20Discoverability%20on%20Instagram%20Using%20Machine%20Learning.pdf"
+                  projectTitle="Instagram Content Discoverability using Machine Learning"
+                  presentationUrl="https://www.canva.com/design/DAHVXPsqIEk/77nJLkc_I_Y2t0JPmzq_gA/view"
+                />
               </div>
             </section>
 

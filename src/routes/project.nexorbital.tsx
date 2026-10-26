@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Github, FileText, Download } from "lucide-react";
+import { Github, FileText, ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
 import { ProtectedImage } from "../components/ProtectedImage";
+import { ViewReportButton } from "../components/ViewReportButton";
 
 import fig1 from "../assets/NexOrbital/nexorbital_rocket_flight.png";
 import fig2 from "../assets/NexOrbital/rail_housing_cross_section.png";
@@ -10,6 +11,12 @@ import fig4 from "../assets/NexOrbital/launchpad_macro_dimensions.png";
 import fig5 from "../assets/NexOrbital/trapezoidal_supports_and_feet.png";
 
 export const Route = createFileRoute("/project/nexorbital")({
+  head: () => ({
+    meta: [
+      { title: "NexOrbital Launch Platform — Aaditya Kamble" },
+      { property: "og:title", content: "NexOrbital Launch Platform — Aaditya Kamble" },
+    ],
+  }),
   component: NexOrbitalProjectPage,
 });
 
@@ -88,16 +95,10 @@ function NexOrbitalProjectPage() {
 
               {/* Action Links */}
               <div className="mt-10 flex flex-wrap justify-center gap-3">
-                <a
-                  href="/src/assets/NexOrbital/Design and Sizing of the NexOrbital Launch Platform.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-all hover:bg-accent"
-                >
-                  <FileText className="h-4 w-4" />
-                  Download Report
-                  <Download className="h-4 w-4 ml-1 opacity-80" />
-                </a>
+                <ViewReportButton
+                  reportUrl="/reports/Design%20and%20Sizing%20of%20the%20NexOrbital%20Launch%20Platform.pdf"
+                  projectTitle="NexOrbital: Model Rocketry Launch Platform"
+                />
               </div>
             </section>
 

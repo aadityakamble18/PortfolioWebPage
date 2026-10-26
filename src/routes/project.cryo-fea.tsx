@@ -1,9 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Github, Presentation, FileText, Download, ArrowUpRight } from "lucide-react";
+import { Github, Presentation, FileText, ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
 import { ProtectedImage } from "../components/ProtectedImage";
+import { ViewReportButton } from "../components/ViewReportButton";
 
 export const Route = createFileRoute("/project/cryo-fea")({
+  head: () => ({
+    meta: [
+      { title: "Cryogenic Storage FEA — Aaditya Kamble" },
+      { property: "og:title", content: "Cryogenic Storage FEA — Aaditya Kamble" },
+    ],
+  }),
   component: CryoFeaProjectPage,
 });
 
@@ -110,16 +117,11 @@ function CryoFeaProjectPage() {
                   View Presentation
                   <ArrowUpRight className="h-4 w-4 ml-1 opacity-80" />
                 </a>
-                <a
-                  href="/src/assets/Liquid hydrogen/h2.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-foreground transition-all hover:bg-accent"
-                >
-                  <FileText className="h-4 w-4" />
-                  View Report
-                  <Download className="h-4 w-4 ml-1 opacity-80" />
-                </a>
+                <ViewReportButton
+                  reportUrl="/reports/h2_Storage_V.pdf"
+                  projectTitle="Material Analysis of Cryogenic Liquid Hydrogen Storage Vessels using FEA"
+                  presentationUrl="https://www.canva.com/design/DAFy-I6sZhg/gVvkz40SeUjcatW3idHklA/view"
+                />
               </div>
             </section>
 

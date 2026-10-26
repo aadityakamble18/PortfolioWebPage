@@ -3,6 +3,12 @@ import { ArrowLeft } from "lucide-react";
 import { ProtectedImage } from "../components/ProtectedImage";
 
 export const Route = createFileRoute("/experience/scoall")({
+  head: () => ({
+    meta: [
+      { title: "Scoall Experience — Aaditya Kamble" },
+      { property: "og:title", content: "Scoall Experience — Aaditya Kamble" },
+    ],
+  }),
   component: ScoallExperiencePage,
 });
 

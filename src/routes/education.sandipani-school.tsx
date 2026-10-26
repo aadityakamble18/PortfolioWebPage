@@ -6,6 +6,12 @@ import sagImg from "../assets/X/sag.jpeg";
 import { ProtectedImage } from "../components/ProtectedImage";
 
 export const Route = createFileRoute("/education/sandipani-school")({
+  head: () => ({
+    meta: [
+      { title: "Sandipani School — Aaditya Kamble" },
+      { property: "og:title", content: "Sandipani School — Aaditya Kamble" },
+    ],
+  }),
   component: EducationPage,
 });
 

@@ -5,6 +5,12 @@ import boltheadsImg from "../assets/Btech/boltheads.jpeg";
 import { ProtectedImage } from "../components/ProtectedImage";
 
 export const Route = createFileRoute("/education/iit-jodhpur")({
+  head: () => ({
+    meta: [
+      { title: "IIT Jodhpur — Aaditya Kamble" },
+      { property: "og:title", content: "IIT Jodhpur — Aaditya Kamble" },
+    ],
+  }),
   component: EducationPage,
 });
 
